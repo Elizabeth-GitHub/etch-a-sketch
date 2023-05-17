@@ -5,12 +5,16 @@ for (let i = 0; i < numberContainers; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
         containerGrid.appendChild(square);
+        square.addEventListener('mouseenter', handleMouseEnter);
     }
 }
+const squares = document.querySelectorAll('.square');
 
 containerGrid.setAttribute('id', 'container-grid');
-containerGrid.classList.add('container');
 
 document.body.appendChild(containerGrid);
 
+function handleMouseEnter(event) {
+    event.target.classList.add('hovered');
+};
 
