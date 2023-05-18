@@ -1,24 +1,62 @@
 const containerMain = document.createElement('div');
+const containerButtons = document.createElement('div');
+const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
 const containerGrid = document.createElement('div');
 const defaultSize = 16;
 createGrid(defaultSize);
-const squares = document.querySelectorAll('.square');
 
 containerMain.setAttribute('id', 'container-main');
+containerMain.classList.add('containers');
+containerButtons.setAttribute('id', 'container-buttons');
+containerButtons.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
+containerGrid.classList.add('containers');
+buttonClear.classList.add('button');
 buttonNewGrid.classList.add('button');
-buttonNewGrid.textContent = 'NEW GRID';
+buttonClear.textContent = 'CLEAR';
+buttonNewGrid.textContent = 'CHANGE GRID SIZE';
 
 document.body.appendChild(containerMain);
-containerMain.appendChild(buttonNewGrid);
+containerMain.appendChild(containerButtons);
 containerMain.appendChild(containerGrid);
+containerButtons.appendChild(buttonClear);
+containerButtons.appendChild(buttonNewGrid);
 
+
+buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 
 function handleMouseEnter(event) {
     event.target.classList.add('hovered');
 };
+
+function removeGrid() {
+    containerGrid.innerHTML = '';
+}
+
+function clearGrid() {
+    const squaresHovered = document.querySelectorAll('.square.hovered');
+
+    console.log('clear');
+    squaresHovered.forEach((squareHovered) => {
+        squareHovered.classList.remove('hovered');
+    });
+}
+
+function createGrid(gridSize) {
+    const squareSize = `${100 / gridSize}%`;
+
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.style.flexBasis = squareSize;
+            containerGrid.appendChild(square);
+            square.addEventListener('mouseenter', handleMouseEnter);
+        }
+    }
+}
 
 function handleButtonNewGridClick() {
     let parsedSize = NaN;
@@ -40,24 +78,6 @@ function handleButtonNewGridClick() {
       }
     }
   
-    clearGrid();
+    removeGrid();
     createGrid(parsedSize);
   }
-
-function clearGrid() {
-    containerGrid.innerHTML = '';
-}
-
-function createGrid(gridSize) {
-    const squareSize = `${100 / gridSize}%`;
-
-    for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-            const square = document.createElement('div');
-            square.classList.add('square');
-            square.style.flexBasis = squareSize;
-            containerGrid.appendChild(square);
-            square.addEventListener('mouseenter', handleMouseEnter);
-        }
-    }
-}

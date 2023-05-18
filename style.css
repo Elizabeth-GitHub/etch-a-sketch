@@ -20,6 +20,11 @@
     height: 100vh;
 }
 
+#container-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
 #container-grid {
     display: flex;
     flex-wrap: wrap;
