@@ -5,3 +5,5 @@ This repository contains my implementation of the Etch-A-Sketch project from [Th
 
 - Pencil icons created by Freepik - Flaticon
   - [Pencil icons](https://www.flaticon.com/free-icons/pencil) used under the Flaticon Free License.
+
+Content assistance provided by ChatGPT.
