@@ -21,19 +21,28 @@ function handleMouseEnter(event) {
 };
 
 function handleButtonNewGridClick() {
-    const newSize = prompt('Enter the number of squares per side for the new grid:');
-
-    if (newSize) {
-        const parsedSize = parseInt(newSize);
-        if (parsedSize > 0) {
-          clearGrid();
-          createGrid(parsedSize);
-        } 
-        else {
-          alert('Invalid input. Please enter a valid number greater than 0.');
-        }
+    let parsedSize = NaN;
+  
+    while (isNaN(parsedSize) || parsedSize <= 0 || parsedSize > 100) {
+      const newSize = prompt('Enter the number of squares per side for the new grid (between 1 and 100):');
+  
+      if (newSize === null) {
+        return; // Exit the function if the user clicks "Cancel"
       }
-};
+  
+      parsedSize = parseInt(newSize);
+  
+      if (parsedSize <= 0) {
+        alert('Number of squares should be at least 1!');
+      } 
+      else if (parsedSize > 100) {
+        alert('Maximum number of squares is 100!');
+      }
+    }
+  
+    clearGrid();
+    createGrid(parsedSize);
+  }
 
 function clearGrid() {
     containerGrid.innerHTML = '';
