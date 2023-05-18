@@ -6,6 +6,8 @@ const containerGrid = document.createElement('div');
 const defaultSize = 16;
 createGrid(defaultSize);
 
+let isPenActive = false;
+
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
 containerButtons.setAttribute('id', 'container-buttons');
@@ -24,12 +26,25 @@ containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
 
 
+containerGrid.addEventListener('mousedown', handleMouseDown);
+containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 
+function handleMouseDown(event) {
+  isPenActive = true;
+  handleMouseEnter(event);
+}
+
+function handleMouseUp() {
+  isPenActive = false;
+}
+
 function handleMouseEnter(event) {
+  if (isPenActive) {
     event.target.classList.add('hovered');
-};
+  }
+}
 
 function removeGrid() {
     containerGrid.innerHTML = '';
@@ -42,6 +57,8 @@ function clearGrid() {
     squaresHovered.forEach((squareHovered) => {
         squareHovered.classList.remove('hovered');
     });
+
+    isPenActive = false; 
 }
 
 function createGrid(gridSize) {
