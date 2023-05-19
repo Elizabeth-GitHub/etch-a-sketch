@@ -32,33 +32,68 @@ buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 
 function handleMouseDown(event) {
-  isPenActive = true;
-  handleMouseEnter(event);
+  if (event.button === 0) {
+    isPenActive = true;
+    handleMouseEnter(event);
+  }
 }
 
 function handleMouseUp() {
   isPenActive = false;
 }
 
-function handleMouseEnter(event) {
+/*function handleMouseEnter(event) {
   if (isPenActive) {
     event.target.classList.add('hovered');
   }
+}*/
+
+function handleMouseEnter(event) {
+  if (isPenActive) {
+    const currentOpacity = 0.1
+      const square = event.target;
+      const randomRGB = getRandomRGB();
+
+      square.style.backgroundColor = randomRGB;
+      square.style.opacity = parseFloat(currentOpacity) + 0.1;
+      square.classList.add('hovered-rgb');
+  }
+}
+
+function getRandomRGB() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgb(${r},${g},${b})`;
 }
 
 function removeGrid() {
     containerGrid.innerHTML = '';
 }
 
-function clearGrid() {
+/*function clearGrid() {
     const squaresHovered = document.querySelectorAll('.square.hovered');
 
-    console.log('clear');
     squaresHovered.forEach((squareHovered) => {
         squareHovered.classList.remove('hovered');
     });
 
     isPenActive = false; 
+}*/
+
+function clearGrid() {
+  const squaresHovered = document.querySelectorAll('.square.hovered-rgb');
+
+  console.log('clear');
+  squaresHovered.forEach((squareHovered) => {
+    squareHovered.style.border = '1px solid rgba(221 160 221 1)';
+    squareHovered.style.backgroundColor = 'white';
+    squareHovered.style.opacity = 1;
+    
+    squareHovered.classList.remove('hovered-rgb');
+});
+
+  isPenActive = false; 
 }
 
 function createGrid(gridSize) {

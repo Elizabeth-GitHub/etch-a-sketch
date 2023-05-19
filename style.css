@@ -17,6 +17,10 @@
     background-color: plum;
 }
 
+.square.unhovered {
+    background-color: white;
+}
+
 #container-main {
     justify-content: center;
     align-items: center;
