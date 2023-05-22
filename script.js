@@ -2,11 +2,13 @@ const containerMain = document.createElement('div');
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
+const buttonRainbow = document.createElement('button');
 const containerGrid = document.createElement('div');
 const defaultSize = 16;
 createGrid(defaultSize);
 
 let isPenActive = false;
+let isRainbowMode = false;
 
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
@@ -15,21 +17,29 @@ containerButtons.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
 containerGrid.classList.add('containers');
 buttonClear.classList.add('button');
-buttonNewGrid.classList.add('button');
 buttonClear.textContent = 'CLEAR';
+buttonNewGrid.classList.add('button');
 buttonNewGrid.textContent = 'CHANGE GRID SIZE';
+buttonRainbow.classList.add('button');
+buttonRainbow.textContent = 'RAINBOW';
 
 document.body.appendChild(containerMain);
 containerMain.appendChild(containerButtons);
 containerMain.appendChild(containerGrid);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
+containerButtons.appendChild(buttonRainbow);
 
 
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
+buttonRainbow.addEventListener('click', enableRainbowMode);
+
+function enableRainbowMode() {
+  isRainbowMode = true;
+}
 
 function handleMouseDown(event) {
   if (event.button === 0) {
@@ -42,21 +52,20 @@ function handleMouseUp() {
   isPenActive = false;
 }
 
-/*function handleMouseEnter(event) {
-  if (isPenActive) {
-    event.target.classList.add('hovered');
-  }
-}*/
-
 function handleMouseEnter(event) {
   if (isPenActive) {
-    const currentOpacity = 0.1
+    if (isRainbowMode) {
+      const currentOpacity = 0.1
       const square = event.target;
       const randomRGB = getRandomRGB();
 
       square.style.backgroundColor = randomRGB;
       square.style.opacity = parseFloat(currentOpacity) + 0.1;
-      square.classList.add('hovered-rgb');
+      square.classList.add('hovered-rainbow');
+    }
+    else {
+      event.target.classList.add('hovered')
+    }
   }
 }
 
@@ -71,26 +80,21 @@ function removeGrid() {
     containerGrid.innerHTML = '';
 }
 
-/*function clearGrid() {
-    const squaresHovered = document.querySelectorAll('.square.hovered');
-
-    squaresHovered.forEach((squareHovered) => {
-        squareHovered.classList.remove('hovered');
-    });
-
-    isPenActive = false; 
-}*/
-
 function clearGrid() {
-  const squaresHovered = document.querySelectorAll('.square.hovered-rgb');
+  const squaresHovered = document.querySelectorAll('.square.hovered, .square.hovered-rainbow');
 
-  console.log('clear');
   squaresHovered.forEach((squareHovered) => {
-    squareHovered.style.border = '1px solid rgba(221 160 221 1)';
-    squareHovered.style.backgroundColor = 'white';
-    squareHovered.style.opacity = 1;
+    if (squareHovered.classList.contains('hovered-rainbow')) {
+      console.log('rainbow');
+      squareHovered.style.border = '1px solid rgba(221 160 221 1)';
+      squareHovered.style.backgroundColor = 'white';
+      squareHovered.style.opacity = 1;
     
-    squareHovered.classList.remove('hovered-rgb');
+      squareHovered.classList.remove('hovered-rainbow');
+    }
+    else {
+      squareHovered.classList.remove('hovered');
+    }
 });
 
   isPenActive = false; 
