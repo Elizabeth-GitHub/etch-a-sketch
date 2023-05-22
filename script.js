@@ -2,7 +2,6 @@ const containerMain = document.createElement('div');
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
-/*const buttonRainbow = document.createElement('button');*/
 const containerToggleRainbow = document.createElement('div');
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
@@ -25,12 +24,11 @@ buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
 buttonNewGrid.classList.add('button');
 buttonNewGrid.textContent = 'CHANGE GRID SIZE';
-/*buttonRainbow.classList.add('button');
-buttonRainbow.textContent = 'RAINBOW';*/
-containerToggleRainbow.classList.add('button');
-labelToggleRainbow.classList.add('button', 'toggle-switch');
+containerToggleRainbow.classList.add('containers', 'button', 'container-toggler');
+labelToggleRainbow.classList.add('containers', 'toggle-switch');
 inputToggleRainbow.type = 'checkbox';
 sliderToggleRainbow.classList.add('slider');
+textToggleRainbow.classList.add('text-toggler');
 textToggleRainbow.textContent = 'RAINBOW';
 
 document.body.appendChild(containerMain);
@@ -38,15 +36,11 @@ containerMain.appendChild(containerButtons);
 containerMain.appendChild(containerGrid);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
-/*containerButtons.appendChild(buttonRainbow);
-buttonRainbow.appendChild(labelToggleRainbow);*/
 containerButtons.appendChild(containerToggleRainbow);
+containerToggleRainbow.appendChild(textToggleRainbow);
 containerToggleRainbow.appendChild(labelToggleRainbow);
 labelToggleRainbow.appendChild(inputToggleRainbow);
 labelToggleRainbow.appendChild(sliderToggleRainbow);
-labelToggleRainbow.appendChild(textToggleRainbow);
-
-
 
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
@@ -55,15 +49,11 @@ buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
     isRainbowMode = true; // Switcher is on, set isRainbowMode to true
-  } else {
+  } 
+  else {
     isRainbowMode = false; // Switcher is off, set isRainbowMode to false
   }
 });
-/*buttonRainbow.addEventListener('click', enableRainbowMode);
-
-function enableRainbowMode() {
-  isRainbowMode = true;
-}*/
 
 function handleMouseDown(event) {
   if (event.button === 0) {
