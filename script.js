@@ -3,6 +3,7 @@ const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
 const buttonDefaultSize = document.createElement('button');
+const buttonEraser = document.createElement('button');
 const containerToggleRainbow = document.createElement('div');
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
@@ -18,6 +19,7 @@ const defaultSize = 16;
 createGrid(defaultSize);
 
 let isPenActive = false;
+let isEraserActive = false;
 let isRainbowMode = false;
 
 containerMain.setAttribute('id', 'container-main');
@@ -33,6 +35,8 @@ buttonNewGrid.textContent = 'CHANGE GRID SIZE';
 buttonDefaultSize.classList.add('button');
 buttonDefaultSize.textContent = 'DEFAULT SIZE';
 buttonDefaultSize.style.display = 'none';
+buttonEraser.classList.add('button');
+buttonEraser.innerText = 'ERASER';
 containerToggleRainbow.classList.add('containers', 'button', 'container-toggler');
 labelToggleRainbow.classList.add('containers', 'toggle-switch');
 inputToggleRainbow.type = 'checkbox';
@@ -53,6 +57,7 @@ containerMain.appendChild(containerGrid);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
 containerButtons.appendChild(buttonDefaultSize);
+containerButtons.appendChild(buttonEraser);
 containerButtons.appendChild(containerToggleRainbow);
 containerButtons.appendChild(containerTogglerGrid);
 containerToggleRainbow.appendChild(textToggleRainbow);
@@ -72,6 +77,8 @@ buttonDefaultSize.addEventListener('click', function() {
   removeGrid();
   createGrid(defaultSize); // Set the default grid size (e.g., 16)
 });
+buttonEraser.addEventListener('click', toggleEraserMode);
+
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
     isRainbowMode = true; // Switcher is on, set isRainbowMode to true
@@ -95,10 +102,27 @@ inputToggleGrid.addEventListener('change', function() {
   }
 } )
 
-function handleMouseDown(event) {
+function eraseSquare(square) {
+  if (square.classList.contains('hovered-rainbow')) {
+    square.style.border = '1px solid rgba(221, 160, 221, 1)';
+    square.style.backgroundColor = 'white';
+    square.style.opacity = 1;
+  
+    square.classList.remove('hovered-rainbow');
+  } else {
+    square.classList.remove('hovered');
+  }
+}
+
+ function handleMouseDown(event) {
   if (event.button === 0) {
-    isPenActive = true;
-    handleMouseEnter(event);
+    if (isEraserActive) {
+      eraseSquare(event.target);
+    } 
+    else {
+      isPenActive = true;
+      handleMouseEnter(event);
+    }
   }
 }
 
@@ -123,6 +147,18 @@ function handleMouseEnter(event) {
   }
 }
 
+function toggleEraserMode() {
+  isEraserActive = !isEraserActive;
+
+  if (isEraserActive) {
+    containerGrid.classList.add('cursor-eraser');
+    buttonEraser.classList.add('active');
+  } else {
+    buttonEraser.classList.remove('active');
+  }
+}
+
+
 function getRandomRGB() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -139,7 +175,6 @@ function clearGrid() {
 
   squaresHovered.forEach((squareHovered) => {
     if (squareHovered.classList.contains('hovered-rainbow')) {
-      console.log('rainbow');
       squareHovered.style.border = '1px solid rgba(221 160 221 1)';
       squareHovered.style.backgroundColor = 'white';
       squareHovered.style.opacity = 1;

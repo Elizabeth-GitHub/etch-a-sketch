@@ -16,13 +16,20 @@ input {
     font-size: small;
 }
 
+.button.active {
+  opacity: 0.5;
+}
+
 .square {
-    /*border: 1px solid plum;*/
     flex-basis: auto;
 }
 
 .square.show-grid {
   border: 1px solid plum;
+}
+
+.cursor-eraser {
+  cursor: url('./images/cursoreraser.png'), pointer;
 }
 
 .square.hovered {
