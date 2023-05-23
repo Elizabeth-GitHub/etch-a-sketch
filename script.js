@@ -52,6 +52,7 @@ containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 buttonDefaultSize.addEventListener('click', function() {
+  buttonDefaultSize.style.display = 'none';
   removeGrid();
   createGrid(defaultSize); // Set the default grid size (e.g., 16)
 });
