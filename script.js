@@ -2,6 +2,7 @@ const containerMain = document.createElement('div');
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
+const buttonDefaultSize = document.createElement('button');
 const containerToggleRainbow = document.createElement('div');
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
@@ -24,6 +25,9 @@ buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
 buttonNewGrid.classList.add('button');
 buttonNewGrid.textContent = 'CHANGE GRID SIZE';
+buttonDefaultSize.classList.add('button');
+buttonDefaultSize.textContent = 'DEFAULT SIZE';
+buttonDefaultSize.style.display = 'none';
 containerToggleRainbow.classList.add('containers', 'button', 'container-toggler');
 labelToggleRainbow.classList.add('containers', 'toggle-switch');
 inputToggleRainbow.type = 'checkbox';
@@ -36,6 +40,7 @@ containerMain.appendChild(containerButtons);
 containerMain.appendChild(containerGrid);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
+containerButtons.appendChild(buttonDefaultSize);
 containerButtons.appendChild(containerToggleRainbow);
 containerToggleRainbow.appendChild(textToggleRainbow);
 containerToggleRainbow.appendChild(labelToggleRainbow);
@@ -46,6 +51,10 @@ containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
 buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
+buttonDefaultSize.addEventListener('click', function() {
+  removeGrid();
+  createGrid(defaultSize); // Set the default grid size (e.g., 16)
+});
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
     isRainbowMode = true; // Switcher is on, set isRainbowMode to true
@@ -150,4 +159,5 @@ function handleButtonNewGridClick() {
   
     removeGrid();
     createGrid(parsedSize);
+    buttonDefaultSize.style.display = 'flex';
   }
