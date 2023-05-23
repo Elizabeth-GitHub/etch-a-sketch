@@ -8,6 +8,11 @@ const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
 const sliderToggleRainbow = document.createElement('span');
 const textToggleRainbow = document.createElement('span');
+const containerTogglerGrid = document.createElement('div');
+const textToggleGrid = document.createElement('span');
+const labelTogglerGrid = document.createElement('label');
+const inputToggleGrid = document.createElement('input');
+const sliderTogglerGrid = document.createElement('span');
 const containerGrid = document.createElement('div');
 const defaultSize = 16;
 createGrid(defaultSize);
@@ -34,6 +39,13 @@ inputToggleRainbow.type = 'checkbox';
 sliderToggleRainbow.classList.add('slider');
 textToggleRainbow.classList.add('text-toggler');
 textToggleRainbow.textContent = 'RAINBOW';
+containerTogglerGrid.classList.add('containers', 'button', 'container-toggler');
+textToggleGrid.classList.add('text-toggler');
+textToggleGrid.innerText = 'SHOW GRID';
+labelTogglerGrid.classList.add('containers', 'toggle-switch');
+inputToggleGrid.type = 'checkbox';
+inputToggleGrid.checked = true;
+sliderTogglerGrid.classList.add('slider');
 
 document.body.appendChild(containerMain);
 containerMain.appendChild(containerButtons);
@@ -42,11 +54,15 @@ containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
 containerButtons.appendChild(buttonDefaultSize);
 containerButtons.appendChild(containerToggleRainbow);
+containerButtons.appendChild(containerTogglerGrid);
 containerToggleRainbow.appendChild(textToggleRainbow);
 containerToggleRainbow.appendChild(labelToggleRainbow);
 labelToggleRainbow.appendChild(inputToggleRainbow);
 labelToggleRainbow.appendChild(sliderToggleRainbow);
-
+containerTogglerGrid.appendChild(textToggleGrid);
+containerTogglerGrid.appendChild(labelTogglerGrid);
+labelTogglerGrid.appendChild(inputToggleGrid);
+labelTogglerGrid.appendChild(sliderTogglerGrid);
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
@@ -64,6 +80,20 @@ inputToggleRainbow.addEventListener('change', function() {
     isRainbowMode = false; // Switcher is off, set isRainbowMode to false
   }
 });
+inputToggleGrid.addEventListener('change', function() {
+  const allSquares = document.querySelectorAll('.square');
+  
+  if (!this.checked) {
+    allSquares.forEach((square) => {
+    square.classList.remove('show-grid');
+    })
+  }
+  else {
+    allSquares.forEach((square) => {
+      square.classList.add('show-grid');
+      })
+  }
+} )
 
 function handleMouseDown(event) {
   if (event.button === 0) {
@@ -130,7 +160,7 @@ function createGrid(gridSize) {
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             const square = document.createElement('div');
-            square.classList.add('square');
+            square.classList.add('square', 'show-grid');
             square.style.flexBasis = squareSize;
             containerGrid.appendChild(square);
             square.addEventListener('mouseenter', handleMouseEnter);

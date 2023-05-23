@@ -17,8 +17,12 @@ input {
 }
 
 .square {
-    border: 1px solid plum;
+    /*border: 1px solid plum;*/
     flex-basis: auto;
+}
+
+.square.show-grid {
+  border: 1px solid plum;
 }
 
 .square.hovered {
@@ -60,14 +64,14 @@ input {
     transition: 0.4s;
   }
   
-  input[type='checkbox']:checked + .slider {
+input[type='checkbox']:checked + .slider {
     background-color: #ccc;
-  }
+}
   
-  input[type='checkbox']:checked + .slider:before {
+input[type='checkbox']:checked + .slider:before {
     transform: translateX(26px);
     background-color: plum;
-  }
+}
   
 #container-main {
     justify-content: center;
@@ -87,4 +91,5 @@ input {
     width: 70%;
     height: 70%;
     cursor: url('./images/cursorpencil.png'), pointer;
+    border: 2px solid plum;
 }
