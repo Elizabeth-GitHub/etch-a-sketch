@@ -27,7 +27,7 @@ containerMain.classList.add('containers');
 containerButtons.setAttribute('id', 'container-buttons');
 containerButtons.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
-containerGrid.classList.add('containers');
+containerGrid.classList.add('containers', 'cursor-pencil');
 buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
 buttonNewGrid.classList.add('button');
@@ -153,8 +153,10 @@ function toggleEraserMode() {
   if (isEraserActive) {
     containerGrid.classList.add('cursor-eraser');
     buttonEraser.classList.add('active');
-  } else {
+  } 
+  else {
     buttonEraser.classList.remove('active');
+    containerGrid.classList.remove('cursor-eraser');
   }
 }
 

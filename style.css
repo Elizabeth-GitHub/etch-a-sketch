@@ -28,6 +28,10 @@ input {
   border: 1px solid plum;
 }
 
+.cursor-pencil {
+  cursor: url('./images/cursorpencil.png'), pointer;
+}
+
 .cursor-eraser {
   cursor: url('./images/cursoreraser.png'), pointer;
 }
@@ -97,6 +101,5 @@ input[type='checkbox']:checked + .slider:before {
     flex-wrap: wrap;
     width: 70%;
     height: 70%;
-    cursor: url('./images/cursorpencil.png'), pointer;
     border: 2px solid plum;
 }
