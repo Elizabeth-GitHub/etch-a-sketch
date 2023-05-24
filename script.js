@@ -138,12 +138,16 @@ inputToggleGradient.addEventListener('change', function() {
 
 //
 function eraseSquare(square) {
-  if (square.classList.contains('hovered-rainbow')) {
+  if (square.classList.contains('hovered-rainbow', 'hovered-gradient') ||  square.classList.contains('hovered-gradient')) {
     square.style.border = '1px solid rgba(221, 160, 221, 1)';
     square.style.backgroundColor = 'white';
     square.style.opacity = 1;
-  
-    square.classList.remove('hovered-rainbow');
+    
+    if (square.classList.contains('hovered-rainbow')){
+      square.classList.remove('hovered-rainbow');
+    } else {
+      square.classList.remove('hovered-gradient');
+    }
   } else {
     square.classList.remove('hovered');
   }}
@@ -177,6 +181,7 @@ function handleMouseEnter(event) {
       const maxOpacity = 1;
       let currentOpacity = previousOpacity;
 
+      square.classList.add('hovered-gradient');
       if (currentOpacity < maxOpacity) {
         const increment = 0.067
         const newOpacity = currentOpacity + increment;
@@ -221,7 +226,7 @@ function removeGrid() {
 }
 
 function clearGrid() {
-  const squaresHovered = document.querySelectorAll('.square.hovered, .square.hovered-rainbow');
+  const squaresHovered = document.querySelectorAll('.square.hovered, .square.hovered-rainbow, .square.hovered-gradient');
 
   squaresHovered.forEach((squareHovered) => {
     eraseSquare(squareHovered);
