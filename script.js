@@ -105,8 +105,10 @@ buttonEraser.addEventListener('click', toggleEraserMode);
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
     isRainbowMode = true; 
+    containerToggleGradient.classList.add('disabled');
   } else {
-    isRainbowMode = false; 
+    isRainbowMode = false;
+    containerToggleGradient.classList.remove('disabled');
   }
 });
 
@@ -127,8 +129,10 @@ inputToggleGrid.addEventListener('change', function() {
 inputToggleGradient.addEventListener('change', function() {
   if (this.checked) {
     isGradientMode = true;
+    containerToggleRainbow.classList.add('disabled');
   } else {
     isGradientMode = false;
+    containerToggleRainbow.classList.remove('disabled');
   }
 })
 
