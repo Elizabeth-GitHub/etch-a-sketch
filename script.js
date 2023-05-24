@@ -75,18 +75,16 @@ buttonNewGrid.addEventListener('click', handleButtonNewGridClick);
 buttonDefaultSize.addEventListener('click', function() {
   buttonDefaultSize.style.display = 'none';
   removeGrid();
-  createGrid(defaultSize); // Set the default grid size (e.g., 16)
+  createGrid(defaultSize); 
 });
 buttonEraser.addEventListener('click', toggleEraserMode);
-
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
-    isRainbowMode = true; // Switcher is on, set isRainbowMode to true
+    isRainbowMode = true; 
   } 
   else {
-    isRainbowMode = false; // Switcher is off, set isRainbowMode to false
-  }
-});
+    isRainbowMode = false; 
+  }});
 inputToggleGrid.addEventListener('change', function() {
   const allSquares = document.querySelectorAll('.square');
   
@@ -98,10 +96,8 @@ inputToggleGrid.addEventListener('change', function() {
   else {
     allSquares.forEach((square) => {
       square.classList.add('show-grid');
-      })
-  }
-} )
-
+      })}} )
+//
 function eraseSquare(square) {
   if (square.classList.contains('hovered-rainbow')) {
     square.style.border = '1px solid rgba(221, 160, 221, 1)';
@@ -111,8 +107,7 @@ function eraseSquare(square) {
     square.classList.remove('hovered-rainbow');
   } else {
     square.classList.remove('hovered');
-  }
-}
+  }}
 
  function handleMouseDown(event) {
   if (event.button === 0) {
@@ -122,9 +117,7 @@ function eraseSquare(square) {
     else {
       isPenActive = true;
       handleMouseEnter(event);
-    }
-  }
-}
+    }}}
 
 function handleMouseUp() {
   isPenActive = false;
@@ -143,9 +136,7 @@ function handleMouseEnter(event) {
     }
     else {
       event.target.classList.add('hovered')
-    }
-  }
-}
+    }}}
 
 function toggleEraserMode() {
   isEraserActive = !isEraserActive;
@@ -157,8 +148,7 @@ function toggleEraserMode() {
   else {
     buttonEraser.classList.remove('active');
     containerGrid.classList.remove('cursor-eraser');
-  }
-}
+  }}
 
 
 function getRandomRGB() {
@@ -176,18 +166,8 @@ function clearGrid() {
   const squaresHovered = document.querySelectorAll('.square.hovered, .square.hovered-rainbow');
 
   squaresHovered.forEach((squareHovered) => {
-    if (squareHovered.classList.contains('hovered-rainbow')) {
-      squareHovered.style.border = '1px solid rgba(221 160 221 1)';
-      squareHovered.style.backgroundColor = 'white';
-      squareHovered.style.opacity = 1;
-    
-      squareHovered.classList.remove('hovered-rainbow');
-    }
-    else {
-      squareHovered.classList.remove('hovered');
-    }
+    eraseSquare(squareHovered);
 });
-
   isPenActive = false; 
 }
 
