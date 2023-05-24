@@ -4,16 +4,22 @@ const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
 const buttonDefaultSize = document.createElement('button');
 const buttonEraser = document.createElement('button');
+const containerToggles = document.createElement('div');
 const containerToggleRainbow = document.createElement('div');
+const textToggleRainbow = document.createElement('span');
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
 const sliderToggleRainbow = document.createElement('span');
-const textToggleRainbow = document.createElement('span');
-const containerTogglerGrid = document.createElement('div');
+const containerToggleGradient = document.createElement('div');
+const textToggleGradient = document.createElement('span');
+const labelToggleGradient = document.createElement('label');
+const inputToggleGradient = document.createElement('input');
+const sliderToggleGradient = document.createElement('span');
+const containerToggleGrid = document.createElement('div');
 const textToggleGrid = document.createElement('span');
-const labelTogglerGrid = document.createElement('label');
+const labelToggleGrid = document.createElement('label');
 const inputToggleGrid = document.createElement('input');
-const sliderTogglerGrid = document.createElement('span');
+const sliderToggleGrid = document.createElement('span');
 const containerGrid = document.createElement('div');
 const defaultSize = 16;
 createGrid(defaultSize);
@@ -21,11 +27,15 @@ createGrid(defaultSize);
 let isPenActive = false;
 let isEraserActive = false;
 let isRainbowMode = false;
+let isGradientMode = false;
+let previousOpacity = 0; // Initial gradient opacity
 
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
 containerButtons.setAttribute('id', 'container-buttons');
 containerButtons.classList.add('containers');
+containerToggles.setAttribute('id', 'container-toggles');
+containerToggles.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
 containerGrid.classList.add('containers', 'cursor-pencil');
 buttonClear.classList.add('button');
@@ -43,31 +53,45 @@ inputToggleRainbow.type = 'checkbox';
 sliderToggleRainbow.classList.add('slider');
 textToggleRainbow.classList.add('text-toggler');
 textToggleRainbow.textContent = 'RAINBOW';
-containerTogglerGrid.classList.add('containers', 'button', 'container-toggler');
+containerToggleGrid.classList.add('containers', 'button', 'container-toggler');
 textToggleGrid.classList.add('text-toggler');
 textToggleGrid.innerText = 'SHOW GRID';
-labelTogglerGrid.classList.add('containers', 'toggle-switch');
+labelToggleGrid.classList.add('containers', 'toggle-switch');
 inputToggleGrid.type = 'checkbox';
 inputToggleGrid.checked = true;
-sliderTogglerGrid.classList.add('slider');
+sliderToggleGrid.classList.add('slider');
+containerToggleGradient.classList.add('containers', 'button', 'container-toggler');
+textToggleGradient.classList.add('text-toggler');
+textToggleGradient.innerText = 'GRADIENT';
+labelToggleGradient.classList.add('containers', 'toggle-switch');
+inputToggleGradient.type = 'checkbox';
+sliderToggleGradient.classList.add('slider');
 
 document.body.appendChild(containerMain);
 containerMain.appendChild(containerButtons);
+containerMain.appendChild(containerToggles);
 containerMain.appendChild(containerGrid);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
 containerButtons.appendChild(buttonDefaultSize);
 containerButtons.appendChild(buttonEraser);
-containerButtons.appendChild(containerToggleRainbow);
-containerButtons.appendChild(containerTogglerGrid);
+containerToggles.appendChild(containerToggleRainbow);
+containerToggles.appendChild(containerToggleGrid);
+containerToggles.appendChild(containerToggleGradient);
 containerToggleRainbow.appendChild(textToggleRainbow);
 containerToggleRainbow.appendChild(labelToggleRainbow);
 labelToggleRainbow.appendChild(inputToggleRainbow);
 labelToggleRainbow.appendChild(sliderToggleRainbow);
-containerTogglerGrid.appendChild(textToggleGrid);
-containerTogglerGrid.appendChild(labelTogglerGrid);
-labelTogglerGrid.appendChild(inputToggleGrid);
-labelTogglerGrid.appendChild(sliderTogglerGrid);
+containerToggleGradient.appendChild(textToggleGradient);
+containerToggleGradient.appendChild(labelToggleGradient);
+labelToggleGradient.appendChild(inputToggleGradient);
+labelToggleGradient.appendChild(sliderToggleGradient);
+containerToggleGrid.appendChild(textToggleGrid);
+containerToggleGrid.appendChild(labelToggleGrid);
+labelToggleGrid.appendChild(inputToggleGrid);
+labelToggleGrid.appendChild(sliderToggleGrid);
+
+
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
@@ -81,10 +105,11 @@ buttonEraser.addEventListener('click', toggleEraserMode);
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
     isRainbowMode = true; 
-  } 
-  else {
+  } else {
     isRainbowMode = false; 
-  }});
+  }
+});
+
 inputToggleGrid.addEventListener('change', function() {
   const allSquares = document.querySelectorAll('.square');
   
@@ -92,11 +117,21 @@ inputToggleGrid.addEventListener('change', function() {
     allSquares.forEach((square) => {
     square.classList.remove('show-grid');
     })
-  }
-  else {
+  } else {
     allSquares.forEach((square) => {
       square.classList.add('show-grid');
-      })}} )
+    })
+  }
+})
+
+inputToggleGradient.addEventListener('change', function() {
+  if (this.checked) {
+    isGradientMode = true;
+  } else {
+    isGradientMode = false;
+  }
+})
+
 //
 function eraseSquare(square) {
   if (square.classList.contains('hovered-rainbow')) {
@@ -113,11 +148,12 @@ function eraseSquare(square) {
   if (event.button === 0) {
     if (isEraserActive) {
       eraseSquare(event.target);
-    } 
-    else {
+    } else {
       isPenActive = true;
       handleMouseEnter(event);
-    }}}
+    }
+  }
+}
 
 function handleMouseUp() {
   isPenActive = false;
@@ -125,18 +161,36 @@ function handleMouseUp() {
 
 function handleMouseEnter(event) {
   if (isPenActive) {
+    const square = event.target;
+
     if (isRainbowMode) {
-      const currentOpacity = 0.1
-      const square = event.target;
       const randomRGB = getRandomRGB();
 
       square.style.backgroundColor = randomRGB;
-      square.style.opacity = parseFloat(currentOpacity) + 0.1;
+      square.style.opacity = 0.2;
       square.classList.add('hovered-rainbow');
+    } else if (isGradientMode) {
+      const maxOpacity = 1;
+      let currentOpacity = previousOpacity;
+
+      if (currentOpacity < maxOpacity) {
+        const increment = 0.067
+        const newOpacity = currentOpacity + increment;
+        const lightness = (90 - newOpacity * 80).toFixed(0);
+        const saturation = (20 + newOpacity * 80).toFixed(0);
+        
+        square.style.opacity = newOpacity.toString();
+        square.style.backgroundColor = `hsl(330, ${saturation}%, ${lightness}%)`;
+        previousOpacity = newOpacity;
+        console.log(previousOpacity);
+        } else {
+          previousOpacity = 0;
+        }
+      } else {
+      square.classList.add('hovered');
     }
-    else {
-      event.target.classList.add('hovered')
-    }}}
+  }
+}
 
 function toggleEraserMode() {
   isEraserActive = !isEraserActive;
@@ -144,11 +198,11 @@ function toggleEraserMode() {
   if (isEraserActive) {
     containerGrid.classList.add('cursor-eraser');
     buttonEraser.classList.add('active');
-  } 
-  else {
+  } else {
     buttonEraser.classList.remove('active');
     containerGrid.classList.remove('cursor-eraser');
-  }}
+  }
+}
 
 
 function getRandomRGB() {
@@ -199,8 +253,7 @@ function handleButtonNewGridClick() {
   
       if (parsedSize <= 0) {
         alert('Number of squares should be at least 1!');
-      } 
-      else if (parsedSize > 100) {
+      } else if (parsedSize > 100) {
         alert('Maximum number of squares is 100!');
       }
     }

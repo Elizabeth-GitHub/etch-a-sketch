@@ -97,6 +97,10 @@ input[type='checkbox']:checked + .slider:before {
     margin-right: 5%;
 }
 
+#container-toggles {
+  flex-direction: column;
+}
+
 #container-grid {
     flex-wrap: wrap;
     width: 70%;
