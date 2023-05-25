@@ -1,4 +1,9 @@
 const containerMain = document.createElement('div');
+const containerHeader = document.createElement('div');
+const textHeader = document.createElement('h1');
+// Working Area
+const containerWorkingArea = document.createElement('div');
+const containerOptions = document.createElement('div'); 
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonNewGrid = document.createElement('button');
@@ -21,6 +26,13 @@ const labelToggleGrid = document.createElement('label');
 const inputToggleGrid = document.createElement('input');
 const sliderToggleGrid = document.createElement('span');
 const containerGrid = document.createElement('div');
+// Footer
+const containerFooter = document.createElement('div');
+const creator = document.createElement('p');
+const creatorLink = document.createElement('a');
+const creditsFlaticon = document.createElement('p');
+const creditsPencilCursor = document.createElement('p');
+// 
 const defaultSize = 16;
 createGrid(defaultSize);
 
@@ -32,12 +44,21 @@ let previousOpacity = 0; // Initial gradient opacity
 
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
+//
+containerHeader.setAttribute('id', 'container-header');
+containerHeader.classList.add('containers');
+containerWorkingArea.setAttribute('id', 'container-workingarea');
+containerWorkingArea.classList.add('containers');
+containerOptions.setAttribute('id', 'container-options');
+containerOptions.classList.add('containers');
 containerButtons.setAttribute('id', 'container-buttons');
 containerButtons.classList.add('containers');
 containerToggles.setAttribute('id', 'container-toggles');
 containerToggles.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
 containerGrid.classList.add('containers', 'cursor-pencil');
+textHeader.setAttribute('id', 'text-header');
+textHeader.innerText = 'Etch-a-Sketch';
 buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
 buttonNewGrid.classList.add('button');
@@ -66,11 +87,34 @@ textToggleGradient.innerText = 'GRADIENT';
 labelToggleGradient.classList.add('containers', 'toggle-switch');
 inputToggleGradient.type = 'checkbox';
 sliderToggleGradient.classList.add('slider');
+//
+containerFooter.setAttribute('id', 'container-footer');
+containerFooter.classList.add('containers');
+creator.classList.add('text-footer');
+creator.innerText = 'Created by ';
+creatorLink.classList.add('text-footer');
+creatorLink.href = 'https://github.com/Elizabeth-GitHub';
+creatorLink.target = '_blank';
+creatorLink.innerText = 'Elizabeth Developer';
+creditsFlaticon.classList.add('text-footer');
+creditsFlaticon.innerHTML = '<a href="https://www.flaticon.com/free-icon/pencil_603570?term=pencil&page=1&position=34&origin=tag&related_id=603570" target="_blank">Pencil icon,</a>\
+                            <a href="https://www.flaticon.com/free-icon/eraser_593398?term=eraser&page=1&position=81&origin=tag&related_id=593398" target="_blank">eraser cursor</a>\
+                            created by <a href="https://www.flaticon.com/" target="_blank">Fleepik-Flaticon</a> and used under the Flaticon Free License';
+creditsPencilCursor.classList.add('text-footer');
+creditsPencilCursor.innerHTML = 'Pencil cursor icon created by <a href="https://icon-icons.com/users/jU68e8AK4V9vJWDuIDOsp/icon-sets/" target="_blank">Sergey Kokota</a>\
+                                from <a href="https://icon-icons.com/icon/pencil/73996" target="_blank">icon-icons.com</a>\
+                                under <a href="https://creativecommons.org/licenses/by/4.0/#" target="_blank">CC BY 4.0</a>';
 
 document.body.appendChild(containerMain);
-containerMain.appendChild(containerButtons);
-containerMain.appendChild(containerToggles);
-containerMain.appendChild(containerGrid);
+containerMain.appendChild(containerHeader);
+containerHeader.appendChild(textHeader);
+containerMain.appendChild(containerWorkingArea);
+containerWorkingArea.appendChild(containerOptions);
+containerWorkingArea.appendChild(containerGrid);
+/*containerMain.appendChild(containerOptions);
+containerMain.appendChild(containerGrid)*/
+containerOptions.appendChild(containerButtons);
+containerOptions.appendChild(containerToggles);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonNewGrid);
 containerButtons.appendChild(buttonDefaultSize);
@@ -90,7 +134,11 @@ containerToggleGrid.appendChild(textToggleGrid);
 containerToggleGrid.appendChild(labelToggleGrid);
 labelToggleGrid.appendChild(inputToggleGrid);
 labelToggleGrid.appendChild(sliderToggleGrid);
-
+containerMain.appendChild(containerFooter);
+containerFooter.appendChild(creator);
+containerFooter.appendChild(creditsFlaticon);
+containerFooter.appendChild(creditsPencilCursor);
+creator.appendChild(creatorLink);
 
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
