@@ -34,9 +34,13 @@ label {
 }
 
 .button {
-    /*background-color: #E6E6FA;*/
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    height: 2rem;
+    margin-bottom: 5%;
     border: 1px solid #EE82EE;
-    border-radius: 15%;
+    border-radius: 25%;
     cursor: pointer;
     background-color: white;
 }
@@ -65,6 +69,14 @@ label {
 .cursor-eraser {
   cursor: url('./images/cursoreraser.png'), pointer;
 }
+
+.cursor-erasersmall {
+  cursor: url('./images/cursorerasersmall.png'), pointer;
+}
+
+
+
+
 
 .square.hovered {
     background-color: plum;
@@ -112,7 +124,6 @@ input[type='checkbox']:checked + .slider:before {
     transform: translateX(1rem);
 }
 
-.button,
 .toggle-switch {
   width: 100%;
 }
@@ -145,7 +156,7 @@ input[type='checkbox']:checked + .slider:before {
 }
 
 #container-buttons {
-    margin-bottom: 20%;
+    margin-bottom: 40%;
 }
 
 #container-toggles {
