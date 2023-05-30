@@ -20,6 +20,12 @@ const textToggleGradient = document.createElement('span');
 const labelToggleGradient = document.createElement('label');
 const inputToggleGradient = document.createElement('input');
 const sliderToggleGradient = document.createElement('span');
+
+const containerChangeGradientSize = document.createElement('div');
+const containerChangeGradientValue = document.createElement('div');
+const valueGradientSize = document.createElement('span');
+const inputChangeGradientSize= document.createElement('input');
+const labelChangeGradientSize = document.createElement('label');
 const containerToggleGrid = document.createElement('div');
 const textToggleGrid = document.createElement('span');
 const labelToggleGrid = document.createElement('label');
@@ -41,6 +47,7 @@ let isEraserActive = false;
 let isRainbowMode = false;
 let isGradientMode = false;
 let previousOpacity = 0; // Initial gradient opacity
+let squareToGradientIndex = 0;
 
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
@@ -90,6 +97,22 @@ textToggleGradient.innerText = 'GRADIENT';
 labelToggleGradient.classList.add('containers', 'toggle-switch');
 inputToggleGradient.type = 'checkbox';
 sliderToggleGradient.classList.add('slider');
+
+containerChangeGradientSize.classList.add('containers', 'container-sliderrange');
+containerChangeGradientSize.style.display = 'none';
+containerChangeGradientValue.classList.add('containers', 'container-slidervalue');
+valueGradientSize.setAttribute('id', 'value-gradientsize');
+valueGradientSize.textContent = 10;
+inputChangeGradientSize.setAttribute('id', 'input-changegradientsize');
+inputChangeGradientSize.classList.add('slider-range');
+inputChangeGradientSize.type = 'range';
+inputChangeGradientSize.min = '1';
+inputChangeGradientSize.max = '100';
+inputChangeGradientSize.value = '10';
+inputChangeGradientSize.step = '1';
+labelChangeGradientSize.classList.add('text-toggler');
+labelChangeGradientSize.textContent = 'Gradient Size';
+
 //
 containerFooter.setAttribute('id', 'container-footer');
 containerFooter.classList.add('containers');
@@ -132,6 +155,12 @@ containerToggleGradient.appendChild(labelToggleGradient);
 labelToggleGradient.appendChild(inputToggleGradient);
 labelToggleGradient.appendChild(sliderToggleGradient);
 containerToggleGrid.appendChild(textToggleGrid);
+
+containerToggles.appendChild(containerChangeGradientSize);
+containerChangeGradientSize.appendChild(containerChangeGradientValue);
+containerChangeGradientValue.appendChild(valueGradientSize);
+containerChangeGradientSize.appendChild(inputChangeGradientSize);
+containerChangeGradientSize.appendChild(labelChangeGradientSize);
 containerToggleGrid.appendChild(labelToggleGrid);
 labelToggleGrid.appendChild(inputToggleGrid);
 labelToggleGrid.appendChild(sliderToggleGrid);
@@ -183,11 +212,23 @@ inputToggleGradient.addEventListener('change', function() {
   if (this.checked) {
     isGradientMode = true;
     containerToggleRainbow.classList.add('disabled');
+    enableElement(containerChangeGradientSize);
   } else {
     isGradientMode = false;
     containerToggleRainbow.classList.remove('disabled');
+    disableElement(containerChangeGradientSize);
   }
 })
+
+
+inputChangeGradientSize.addEventListener('input', function() {
+  const valueGradient = inputChangeGradientSize.value;
+  const coloredSliderBackground = `${parseInt(valueGradient)}% 100%`;
+  
+  inputChangeGradientSize.style.backgroundSize = coloredSliderBackground;
+  valueGradientSize.textContent = valueGradient;
+});
+
 
 //
 function eraseSquare(square) {
@@ -232,33 +273,15 @@ function drawRainbowSquare(squareToRainbow) {
   squareToRainbow.classList.add('hovered-rainbow');
 }
 
-
-/*function askGradientSize() {
-  const gradientSize = prompt('Enter the gradient size (between 0 and 100):\n\n\
-                              The gradient size determines the length of the gradient before it starts repeating. \
-                              A smaller size creates a shorter gradient, while a larger size creates a longer gradient before starting again.');
-
-  if (gradientSize !== null && gradientSize !== '') {
-    const size = parseInt(gradientSize, 10);
-
-    if (Number.isNaN(size) || size < 0 || size > 100) {
-      alert('Invalid gradient size! Please enter a value between 0 and 100.');
-    } 
-  } else {
-    alert('Gradient size not provided! Gradient mode disabled.');
-    this.checked = false;
-    isGradientMode = false;
-    containerToggleRainbow.classList.remove('disabled');
-  }
-}*/
 function drawGradientSquare(squareToGradient) {
   const maxOpacity = 1;
+  const gradientSize = parseInt(valueGradientSize.textContent);
   
   let currentOpacity = previousOpacity;
 
   squareToGradient.classList.add('hovered-gradient');
-  if (currentOpacity < maxOpacity) {
-    const increment = 0.067
+  if (currentOpacity < maxOpacity && squareToGradientIndex <= gradientSize) {
+    const increment = maxOpacity / (gradientSize - 1);
     const newOpacity = currentOpacity + increment;
     const lightness = (90 - newOpacity * 80).toFixed(0);
     const saturation = (20 + newOpacity * 80).toFixed(0);
@@ -266,21 +289,23 @@ function drawGradientSquare(squareToGradient) {
     squareToGradient.style.opacity = newOpacity.toString();
     squareToGradient.style.backgroundColor = `hsl(330, ${saturation}%, ${lightness}%)`;
     previousOpacity = newOpacity;
-    console.log(previousOpacity);
+    squareToGradientIndex += 1
   } else {
+    squareToGradient.style.opacity = '0'; 
     previousOpacity = 0;
+    squareToGradientIndex = 0;
   }
 }
 
-function enableButton(...buttonsToEnable) {
-  buttonsToEnable.forEach(buttonToEnable => {
-    buttonToEnable.style.display = 'flex';
+function enableElement(...elementsToEnable) {
+  elementsToEnable.forEach(elementToEnable => {
+    elementToEnable.style.display = 'flex';
   });
 }
 
-function disableButton(...buttonsToDisable) {
-  buttonsToDisable.forEach(buttonToDisable => {
-    buttonToDisable.style.display = 'none';
+function disableElement(...elementsToDisable) {
+  elementsToDisable.forEach(elementToDisable => {
+    elementToDisable.style.display = 'none';
   });
 }
 
@@ -297,7 +322,7 @@ function handleMouseEnter(event) {
     } else {
       drawPlumSquare(square);
     }
-    enableButton(buttonClear, buttonEraser);
+    enableElement(buttonClear, buttonEraser);
   }
 }
 
@@ -336,7 +361,8 @@ function clearGrid() {
       eraseSquare(elementHovered);
   });
     isPenActive = false; 
-    disableButton(buttonClear, buttonEraser);
+    disableElement(buttonClear, buttonEraser);
+    previousOpacity = 0;
   } else {
     return
   }
@@ -408,3 +434,5 @@ function changeGridSize(){
   createGrid(parsedSize);
   buttonDefaultSize.style.display = 'flex';
 } 
+
+
