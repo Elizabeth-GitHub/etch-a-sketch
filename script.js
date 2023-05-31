@@ -7,6 +7,13 @@ const containerOptions = document.createElement('div');
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonChangeGridSize = document.createElement('button');
+//
+const containerChangeGridSizeSlider =  document.createElement('div');
+const containerChoosenGridSize = document.createElement('div');
+const choosenGridSize = document.createElement('span');
+const inputChangeGridSize = document.createElement('input');
+const labelChangeGridSize = document.createElement('label');
+//
 const buttonDefaultSize = document.createElement('button');
 const buttonEraser = document.createElement('button');
 const containerToggles = document.createElement('div');
@@ -20,7 +27,6 @@ const textToggleGradient = document.createElement('span');
 const labelToggleGradient = document.createElement('label');
 const inputToggleGradient = document.createElement('input');
 const sliderToggleGradient = document.createElement('span');
-
 const containerChangeGradientSize = document.createElement('div');
 const containerChangeGradientValue = document.createElement('div');
 const valueGradientSize = document.createElement('span');
@@ -71,6 +77,21 @@ buttonClear.textContent = 'CLEAR';
 buttonClear.style.display = 'none';
 buttonChangeGridSize.classList.add('button');
 buttonChangeGridSize.textContent = 'CHANGE GRID SIZE';
+//
+containerChangeGridSizeSlider.classList.add('containers');
+containerChangeGridSizeSlider.style.display = 'none';
+containerChoosenGridSize.classList.add('containers');
+choosenGridSize.setAttribute('id', 'choosen-gridsize');
+choosenGridSize.textContent = 16;
+inputChangeGridSize.classList.add('slider-range');
+inputChangeGridSize.type = 'range';
+inputChangeGridSize.min = '1';
+inputChangeGridSize.max = '100';
+inputChangeGridSize.value = '10';
+inputChangeGridSize.step = '1';
+labelChangeGridSize.classList.add('text-toggler');
+labelChangeGridSize.textContent = 'Grid Size';
+//
 buttonDefaultSize.classList.add('button');
 buttonDefaultSize.textContent = 'DEFAULT SIZE';
 buttonDefaultSize.style.display = 'none';
@@ -97,13 +118,11 @@ textToggleGradient.innerText = 'GRADIENT';
 labelToggleGradient.classList.add('containers', 'toggle-switch');
 inputToggleGradient.type = 'checkbox';
 sliderToggleGradient.classList.add('slider');
-
-containerChangeGradientSize.classList.add('containers', 'container-sliderrange');
+containerChangeGradientSize.classList.add('containers');
 containerChangeGradientSize.style.display = 'none';
-containerChangeGradientValue.classList.add('containers', 'container-slidervalue');
+containerChangeGradientValue.classList.add('containers');
 valueGradientSize.setAttribute('id', 'value-gradientsize');
 valueGradientSize.textContent = 10;
-inputChangeGradientSize.setAttribute('id', 'input-changegradientsize');
 inputChangeGradientSize.classList.add('slider-range');
 inputChangeGradientSize.type = 'range';
 inputChangeGradientSize.min = '1';
@@ -139,10 +158,15 @@ containerWorkingArea.appendChild(containerOptions);
 containerWorkingArea.appendChild(containerGrid);
 containerOptions.appendChild(containerButtons);
 containerOptions.appendChild(containerToggles);
-containerButtons.appendChild(buttonDefaultSize);
-containerButtons.appendChild(buttonChangeGridSize);
 containerButtons.appendChild(buttonEraser);
 containerButtons.appendChild(buttonClear);
+containerButtons.appendChild(buttonDefaultSize);
+containerButtons.appendChild(buttonChangeGridSize);
+containerButtons.appendChild(containerChangeGridSizeSlider);
+containerChangeGridSizeSlider.appendChild(containerChoosenGridSize);
+containerChoosenGridSize.appendChild(choosenGridSize);
+containerChoosenGridSize.appendChild(inputChangeGridSize);
+containerChoosenGridSize.appendChild(labelChangeGridSize);
 containerToggles.appendChild(containerToggleRainbow);
 containerToggles.appendChild(containerToggleGrid);
 containerToggles.appendChild(containerToggleGradient);
@@ -155,7 +179,6 @@ containerToggleGradient.appendChild(labelToggleGradient);
 labelToggleGradient.appendChild(inputToggleGradient);
 labelToggleGradient.appendChild(sliderToggleGradient);
 containerToggleGrid.appendChild(textToggleGrid);
-
 containerToggles.appendChild(containerChangeGradientSize);
 containerChangeGradientSize.appendChild(containerChangeGradientValue);
 containerChangeGradientValue.appendChild(valueGradientSize);
@@ -178,11 +201,14 @@ buttonDefaultSize.addEventListener('click', function() {
   if (checkHoveredSquares() && !showChangingAlert()) {
     return;
   }
-  
+
   buttonDefaultSize.style.display = 'none';
   removeGrid();
-  createGrid(defaultSize); 
+  createGrid(defaultSize);
+  inputChangeGridSize.value = defaultSize; // Set the value explicitly
+  handleSlider(inputChangeGridSize, choosenGridSize); // Update the appearance
 });
+
 buttonEraser.addEventListener('click', toggleEraserMode);
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked) {
@@ -220,17 +246,41 @@ inputToggleGradient.addEventListener('change', function() {
   }
 })
 
-
 inputChangeGradientSize.addEventListener('input', function() {
-  const valueGradient = inputChangeGradientSize.value;
-  const coloredSliderBackground = `${parseInt(valueGradient)}% 100%`;
-  
-  inputChangeGradientSize.style.backgroundSize = coloredSliderBackground;
-  valueGradientSize.textContent = valueGradient;
+  handleSlider(inputChangeGradientSize, valueGradientSize);
 });
+
+inputChangeGridSize.addEventListener('input', function() {
+  const newGridSize = inputChangeGridSize.value;
+
+  handleSlider(inputChangeGridSize, choosenGridSize);
+
+  if (checkHoveredSquares()) {
+    if (showChangingAlert()) { // A user agreed to reset the current drawing
+      changeGridSize(newGridSize); 
+    } else {
+      return;
+    }
+  } else { 
+    changeGridSize(newGridSize); 
+  }
+})
 
 
 //
+function handleSlider(inputChange, valueToDisplay, defaultValue = null) {
+  let valueSlider = defaultValue;
+
+  if (defaultValue === null) {
+    valueSlider = inputChange.value;
+  }
+
+  const proportionBackground  = `${parseInt(valueSlider)}% 100%`
+
+  inputChange.style.backgroundSize = proportionBackground;
+  valueToDisplay.textContent = valueSlider;
+}
+
 function eraseSquare(square) {
   if (square.classList.contains('hovered-rainbow') ||  square.classList.contains('hovered-gradient')) {
     square.style.border = '1px solid rgba(221, 160, 221, 1)';
@@ -308,8 +358,6 @@ function disableElement(...elementsToDisable) {
     elementToDisable.style.display = 'none';
   });
 }
-
-
 
 function handleMouseEnter(event) {
   if (isPenActive) {
@@ -394,16 +442,7 @@ function checkHoveredSquares() {
 }
 
 function handleButtonChangeGridSizeClick() {
-
-  if (checkHoveredSquares()) {
-    if (showChangingAlert()) { // A user agreed to reset the current drawing
-      changeGridSize(); 
-    } else {
-      return;
-    }
-  } else { 
-    changeGridSize(); 
-  }
+  enableElement(containerChangeGridSizeSlider);
 }
 
 function showChangingAlert() {
@@ -411,27 +450,9 @@ function showChangingAlert() {
   return confirmed;
 }
 
-function changeGridSize(){
-  let parsedSize = NaN;
-  
-  while (isNaN(parsedSize) || parsedSize <= 0 || parsedSize > 100) {
-    const newSize = prompt('Enter the number of squares per side for the new grid (between 1 and 100):');
-
-    if (newSize === null) {
-      return; // Exit the function if the user clicks "Cancel"
-    }
-
-    parsedSize = parseInt(newSize);
-
-    if (parsedSize <= 0) {
-      alert('Number of squares should be at least 1!');
-    } else if (parsedSize > 100) {
-      alert('Maximum number of squares is 100!');
-    }
-  }
-
+function changeGridSize(newSize){
   removeGrid();
-  createGrid(parsedSize);
+  createGrid(parseInt(newSize));
   buttonDefaultSize.style.display = 'flex';
 } 
 

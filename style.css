@@ -186,30 +186,6 @@ input[type='checkbox']:checked + .slider:before {
   visibility: visible;
 }
 
-/*#input-changegradientsize {
-  background-color: black;
-}*/
-/*.slider-range {
-  background-color: #E6E6FA;
-}
-
-.slider-range::-webkit-slider-thumb {
-  background-color: #EE82EE;
-}
-
-.slider-range::-moz-range-thumb {
-  background-color: #EE82EE;
-}
-
-.slider-range::-ms-thumb {
-  background-color: #EE82EE;
-}*/
-
-/*.slider-range::-webkit-slider-runnable-track {
-  background: red;
-}*/
-
-
 input[type="range"] {
   /* To hide ordinary range input */
   -webkit-appearance: none;
