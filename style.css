@@ -58,10 +58,6 @@ label {
     flex-basis: auto;
 }
 
-.square.show-grid {
-  border: 1px solid plum;
-}
-
 .cursor-pencil {
   cursor: url('./images/cursorpencil.png'), pointer;
 }
@@ -169,11 +165,11 @@ input[type='checkbox']:checked + .slider:before {
   margin-top: auto;
 }
 
-.container-sliderrange {
+/*.container-sliderrange {
   width: 100%;
   align-items: center;
   justify-content: center;
-}
+}*/
 
 #value-gradientsize {
   font-size: larger;
