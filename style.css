@@ -51,7 +51,7 @@ label {
 
 .disabled {
   opacity: 0.5;
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 .square {

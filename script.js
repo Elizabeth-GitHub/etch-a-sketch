@@ -211,40 +211,34 @@ buttonDefaultSize.addEventListener('click', function() {
 
 buttonEraser.addEventListener('click', toggleEraserMode);
 inputToggleRainbow.addEventListener('change', function() {
-  if (this.checked) {
-    isRainbowMode = true; 
-    containerToggleGradient.classList.add('disabled');
+  if (this.checked && inputToggleGradient.checked) {
+    alert('Rainbow mode will be available after turning off gradient mode!');
+    this.checked = false;
   } else {
-    isRainbowMode = false;
-    containerToggleGradient.classList.remove('disabled');
+  isChecked = this.checked;
+  isRainbowMode = isChecked;
+  containerToggleGradient.classList.toggle('disabled', isChecked);
   }
 });
 
 inputToggleGrid.addEventListener('change', function() {
   const allSquares = document.querySelectorAll('.square');
-  
-  if (!this.checked) {
-    allSquares.forEach((square) => {
-    square.classList.remove('show-grid');
-    })
-  } else {
-    allSquares.forEach((square) => {
-      square.classList.add('show-grid');
-    })
-  }
+
+  allSquares.forEach((square) => {
+    square.classList.toggle('show-grid', this.checked);
+  })
 })
 
 inputToggleGradient.addEventListener('change', function() {
-  if (this.checked) {
-    isGradientMode = true;
-    containerToggleRainbow.classList.add('disabled');
-    enableElement(containerChangeGradientSize);
+  if (this.checked && inputToggleRainbow.checked) {
+    alert('Gradient mode will be available after turning off rainbow mode!');
+    this.checked = false;
   } else {
-    isGradientMode = false;
-    containerToggleRainbow.classList.remove('disabled');
-    disableElement(containerChangeGradientSize);
+    isGradientMode = this.checked;
+    containerToggleRainbow.classList.toggle('disabled', this.checked);
+    enableElement(containerChangeGradientSize, this.checked);
   }
-})
+});
 
 inputChangeGradientSize.addEventListener('input', function() {
   handleSlider(inputChangeGradientSize, valueGradientSize);
@@ -265,7 +259,6 @@ inputChangeGridSize.addEventListener('input', function() {
     changeGridSize(newGridSize); 
   }
 })
-
 
 //
 function handleSlider(inputChange, valueToDisplay, defaultValue = null) {
