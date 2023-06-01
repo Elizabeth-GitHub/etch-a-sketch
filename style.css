@@ -15,6 +15,38 @@ input {
   visibility: hidden;
 }
 
+input[type='checkbox']:checked + .slider {
+  background-color: #E6E6FA;
+}
+
+input[type='checkbox']:checked + .slider:before {
+  transform: translateX(1rem);
+}
+
+input[type="range"] {
+  /* To hide ordinary range input */
+  -webkit-appearance: none;
+
+  height: 1rem;
+  background: #E6E6FA;
+  border-radius: 15px;
+  width: 90%;
+  background-image: linear-gradient(plum,#E6E6FA);
+  background-size: 10% 100%;
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  background: plum; 
+  cursor: pointer;
+  transition: background .3s ease-in-out;
+}
+
 a {
   text-decoration: none;
 }
@@ -51,11 +83,6 @@ label {
 
 .disabled {
   opacity: 0.5;
-  /*pointer-events: none;*/
-}
-
-.square {
-    flex-basis: auto;
 }
 
 .cursor-pencil {
@@ -104,16 +131,13 @@ label {
   transition: 0.4s;
 }
 
-input[type='checkbox']:checked + .slider {
-    background-color: #E6E6FA;
-}
-  
-input[type='checkbox']:checked + .slider:before {
-    transform: translateX(1rem);
-}
-
 .toggle-switch {
   width: 100%;
+}
+
+.slider-range{
+  width:100%;
+  visibility: visible;
 }
 
 .text-footer {
@@ -149,7 +173,6 @@ input[type='checkbox']:checked + .slider:before {
 
 #container-toggles {
   justify-content: center;
-
 }
 
 #container-grid {
@@ -160,61 +183,13 @@ input[type='checkbox']:checked + .slider:before {
     margin-left: auto;
 }
 
-#container-footer {
-  align-items: center;
-  margin-top: auto;
-}
-
-/*.container-sliderrange {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}*/
-
 #value-gradientsize {
   font-size: larger;
   font-weight: 800;
   color: #EE82EE;
 }
 
-.slider-range{
-  width:100%;
-  visibility: visible;
+#container-footer {
+  align-items: center;
+  margin-top: auto;
 }
-
-input[type="range"] {
-  /* To hide ordinary range input */
-  -webkit-appearance: none;
-
-  height: 1rem;
-  background: #E6E6FA;
-  border-radius: 15px;
-  width: 90%;
-  
-  /* Range progress background is set */
-  background-image: linear-gradient(plum,#E6E6FA);
-  background-size: 10% 100%;
-  background-repeat: no-repeat;
-}
-
-/* Thumb styles */
-input[type="range"]::-webkit-slider-thumb {
-
-  /* To hide ordinary thumb */
-  -webkit-appearance: none;
-  
-  height: 1.25rem;
-  width: 1.25rem;
-  border-radius: 50%;
-  
-  /* Since range input is created manually, thumb background can be vary in color */
-  background: plum; 
-  cursor: pointer;
-  transition: background .3s ease-in-out;
-}
-
-
-
-
-
-

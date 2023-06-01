@@ -43,8 +43,11 @@ const creatorLink = document.createElement('a');
 const creditsFlaticon = document.createElement('p');
 const creditsPencilCursor = document.createElement('p');
 // 
-const defaultSize = 16;
-createGrid(defaultSize);
+const DEFAULT_SIZE = 16;
+const RAINBOW_OPACITY = 0.2;
+const MAX_RGB_VALUE = 256;
+const MAX_GRADIENT_OPACITY = 1;
+createGrid(DEFAULT_SIZE);
 
 let isPenActive = false;
 let isEraserActive = false;
@@ -69,7 +72,6 @@ containerToggles.setAttribute('id', 'container-toggles');
 containerToggles.classList.add('containers');
 containerGrid.setAttribute('id', 'container-grid');
 containerGrid.classList.add('containers', 'cursor-pencil');
-/*textHeader.setAttribute('id', 'text-header');*/
 textHeader.innerText = 'Etch-a-Sketch';
 buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
@@ -80,7 +82,6 @@ buttonChangeGridSize.textContent = 'CHANGE GRID SIZE';
 containerChangeGridSizeSlider.classList.add('containers');
 containerChangeGridSizeSlider.style.display = 'none';
 containerChoosenGridSize.classList.add('containers');
-/*chosenGridSize.setAttribute('id', 'chosen-gridsize');*/
 chosenGridSize.textContent = 16;
 inputChangeGridSize.classList.add('slider-range');
 inputChangeGridSize.type = 'range';
@@ -129,7 +130,6 @@ inputChangeGradientSize.value = '10';
 inputChangeGradientSize.step = '1';
 labelChangeGradientSize.classList.add('text-toggler');
 labelChangeGradientSize.textContent = 'Gradient Size';
-
 //
 containerFooter.setAttribute('id', 'container-footer');
 containerFooter.classList.add('containers');
@@ -199,15 +199,14 @@ buttonDefaultSize.addEventListener('click', function() {
   if (checkHoveredSquares() && !showChangingAlert()) {
     return;
   }
-
-  buttonDefaultSize.style.display = 'none';
+  disableElement(buttonDefaultSize);
   removeGrid();
-  createGrid(defaultSize);
-  inputChangeGridSize.value = defaultSize; // Set the value explicitly
-  handleSlider(inputChangeGridSize, chosenGridSize); // Update the appearance
+  createGrid(DEFAULT_SIZE);
+  inputChangeGridSize.value = DEFAULT_SIZE; 
+  handleSlider(inputChangeGridSize, chosenGridSize);
 });
-
 buttonEraser.addEventListener('click', toggleEraserMode);
+
 inputToggleRainbow.addEventListener('change', function() {
   if (this.checked && inputToggleGradient.checked) {
     alert('Rainbow mode will be available after turning off gradient mode!');
@@ -218,22 +217,20 @@ inputToggleRainbow.addEventListener('change', function() {
   containerToggleGradient.classList.toggle('disabled', isChecked);
   }
 });
-
 inputToggleGrid.addEventListener('change', function() {
-  const allSquares = document.querySelectorAll('.square');
+  const allSquaresGrid = document.querySelectorAll('.square');
   isGridShown = this.checked;
 
   if (!isGridShown) {
-    allSquares.forEach((square) => {
-      disableGridBorder(square);
+    allSquaresGrid.forEach((squareGrid) => {
+      disableGridBorder(squareGrid);
       })
   } else {
-    allSquares.forEach((square) => {
-      enableGridBorders(square);
+    allSquaresGrid.forEach((squareGrid) => {
+      enableGridBorders(squareGrid);
       })
   }
 })
-
 inputToggleGradient.addEventListener('change', function() {
   if (this.checked && inputToggleRainbow.checked) {
     alert('Gradient mode will be available after turning off rainbow mode!');
@@ -244,11 +241,9 @@ inputToggleGradient.addEventListener('change', function() {
     enableElement(containerChangeGradientSize, this.checked);
   }
 });
-
 inputChangeGradientSize.addEventListener('input', function() {
   handleSlider(inputChangeGradientSize, chosenGradientSize);
 });
-
 inputChangeGridSize.addEventListener('input', function() {
   const newGridSize = inputChangeGridSize.value;
 
@@ -270,21 +265,84 @@ function enableGridBorders(squareAddBorder) {
   squareAddBorder.style.border = '1px solid rgba(221, 160, 221, 1)';
 }
 
-function disableGridBorder(squareRemoveBorder) {
-  squareRemoveBorder.style.border = 0;
+function getRandomRGB() {
+  const red = Math.floor(Math.random() * MAX_RGB_VALUE);
+  const green = Math.floor(Math.random() * MAX_RGB_VALUE);
+  const blue = Math.floor(Math.random() * MAX_RGB_VALUE);
+
+  return `rgb(${red},${green},${blue})`;
 }
 
-function handleSlider(inputChange, valueToDisplay, defaultValue = null) {
-  let valueSlider = defaultValue;
+function drawRainbowSquare(squareToRainbow) {
+  const randomRGB = getRandomRGB();
 
-  if (defaultValue === null) {
-    valueSlider = inputChange.value;
+  squareToRainbow.style.backgroundColor = randomRGB;
+  squareToRainbow.style.opacity = RAINBOW_OPACITY;
+  squareToRainbow.classList.add('hovered-rainbow');
+}
+
+function drawGradientSquare(squareToGradient) {
+  const gradientSize = parseInt(chosenGradientSize.textContent);
+  
+  let currentOpacity = previousOpacity;
+
+  squareToGradient.classList.add('hovered-gradient');
+  if (currentOpacity < MAX_GRADIENT_OPACITY && squareToGradientIndex <= gradientSize) {
+    const increment = MAX_GRADIENT_OPACITY / (gradientSize - 1);
+    const newOpacity = currentOpacity + increment;
+    const lightness = (90 - newOpacity * 80).toFixed(0);
+    const saturation = (20 + newOpacity * 80).toFixed(0);
+        
+    squareToGradient.style.opacity = newOpacity.toString();
+    squareToGradient.style.backgroundColor = `hsl(330, ${saturation}%, ${lightness}%)`;
+    previousOpacity = newOpacity;
+    squareToGradientIndex += 1
+  } else {
+    squareToGradient.style.opacity = '0'; 
+    previousOpacity = 0;
+    squareToGradientIndex = 0;
   }
+}
 
-  const proportionBackground  = `${parseInt(valueSlider)}% 100%`
+function drawPlumSquare(squareToPLum) {
+  squareToPLum.classList.add('hovered');
+}
 
-  inputChange.style.backgroundSize = proportionBackground;
-  valueToDisplay.textContent = valueSlider;
+function enableElement(...elementsToEnable) {
+  elementsToEnable.forEach(elementToEnable => {
+  elementToEnable.style.display = 'flex';
+});
+}
+
+function handleMouseEnter(event) {
+  if (isPenActive) {
+    const square = event.target;
+
+    if (isRainbowMode) {
+      drawRainbowSquare(square);
+    } else if (isGradientMode) {
+      drawGradientSquare(square);
+    } else {
+      drawPlumSquare(square);
+    }
+    enableElement(buttonClear, buttonEraser);
+  }
+}
+
+function createGrid(gridSize) {
+  const squareSize = `${100 / gridSize}%`;
+
+  for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+          const squareToCreate = document.createElement('div');
+
+          squareToCreate.classList.add('square');
+          enableGridBorders(squareToCreate);
+          squareToCreate.style.flexBasis = squareSize;
+          containerGrid.appendChild(squareToCreate);
+          squareToCreate.addEventListener('mouseenter', handleMouseEnter);
+      }
+  }
 }
 
 function eraseSquare(squareToErase) {
@@ -304,7 +362,7 @@ function eraseSquare(squareToErase) {
     squareToErase.classList.remove('hovered');
   }}
 
- function handleMouseDown(event) {
+function handleMouseDown(event) {
   if (event.button === 0) {
     if (isEraserActive) {
       eraseSquare(event.target);
@@ -319,67 +377,12 @@ function handleMouseUp() {
   isPenActive = false;
 }
 
-function drawPlumSquare(squareToPLum) {
-  squareToPLum.classList.add('hovered');
+function showChangingAlert() {
+  return confirm('The current drawing will not be saved. Are you sure you want to proceed?');
 }
 
-function drawRainbowSquare(squareToRainbow) {
-  const randomRGB = getRandomRGB();
-
-  squareToRainbow.style.backgroundColor = randomRGB;
-  squareToRainbow.style.opacity = 0.2;
-  squareToRainbow.classList.add('hovered-rainbow');
-}
-
-function drawGradientSquare(squareToGradient) {
-  const maxOpacity = 1;
-  const gradientSize = parseInt(chosenGradientSize.textContent);
-  
-  let currentOpacity = previousOpacity;
-
-  squareToGradient.classList.add('hovered-gradient');
-  if (currentOpacity < maxOpacity && squareToGradientIndex <= gradientSize) {
-    const increment = maxOpacity / (gradientSize - 1);
-    const newOpacity = currentOpacity + increment;
-    const lightness = (90 - newOpacity * 80).toFixed(0);
-    const saturation = (20 + newOpacity * 80).toFixed(0);
-        
-    squareToGradient.style.opacity = newOpacity.toString();
-    squareToGradient.style.backgroundColor = `hsl(330, ${saturation}%, ${lightness}%)`;
-    previousOpacity = newOpacity;
-    squareToGradientIndex += 1
-  } else {
-    squareToGradient.style.opacity = '0'; 
-    previousOpacity = 0;
-    squareToGradientIndex = 0;
-  }
-}
-
-function enableElement(...elementsToEnable) {
-  elementsToEnable.forEach(elementToEnable => {
-  elementToEnable.style.display = 'flex';
-});
-}
-
-function disableElement(...elementsToDisable) {
-  elementsToDisable.forEach(elementToDisable => {
-    elementToDisable.style.display = 'none';
-  });
-}
-
-function handleMouseEnter(event) {
-  if (isPenActive) {
-    const square = event.target;
-
-    if (isRainbowMode) {
-      drawRainbowSquare(square);
-    } else if (isGradientMode) {
-      drawGradientSquare(square);
-    } else {
-      drawPlumSquare(square);
-    }
-    enableElement(buttonClear, buttonEraser);
-  }
+function findHoveredSquares() {
+  return document.querySelectorAll('.hovered, .hovered-rainbow, .hovered-gradient');
 }
 
 function toggleEraserMode() {
@@ -389,20 +392,10 @@ function toggleEraserMode() {
   containerGrid.classList.toggle('cursor-eraser', isEraserActive);
 }
 
-function getRandomRGB() {
-  const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-
-  return `rgb(${red},${green},${blue})`;
-}
-
-function removeGrid() {
-    containerGrid.innerHTML = '';
-}
-
-function findHoveredSquares() {
-  return document.querySelectorAll('.hovered, .hovered-rainbow, .hovered-gradient');
+function disableElement(...elementsToDisable) {
+  elementsToDisable.forEach(elementToDisable => {
+    elementToDisable.style.display = 'none';
+  });
 }
 
 function clearGrid() {
@@ -423,20 +416,30 @@ function clearGrid() {
   }
 }
 
-function createGrid(gridSize) {
-  const squareSize = `${100 / gridSize}%`;
+function handleButtonChangeGridSizeClick() {
+  enableElement(containerChangeGridSizeSlider);
+  buttonChangeGridSize.classList.add('disabled');
+}
 
-  for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-          const squareToCreate = document.createElement('div');
+function removeGrid() {
+  containerGrid.innerHTML = '';
+}
 
-          squareToCreate.classList.add('square');
-          enableGridBorders(squareToCreate);
-          squareToCreate.style.flexBasis = squareSize;
-          containerGrid.appendChild(squareToCreate);
-          squareToCreate.addEventListener('mouseenter', handleMouseEnter);
-      }
+function handleSlider(inputChange, valueToDisplay, defaultValue = null) {
+  let valueSlider = defaultValue;
+
+  if (defaultValue === null) {
+    valueSlider = inputChange.value;
   }
+
+  const proportionBackground  = `${parseInt(valueSlider)}% 100%`
+
+  inputChange.style.backgroundSize = proportionBackground;
+  valueToDisplay.textContent = valueSlider;
+}
+
+function disableGridBorder(squareRemoveBorder) {
+  squareRemoveBorder.style.border = 0;
 }
 
 function checkHoveredSquares() {
@@ -449,20 +452,8 @@ function checkHoveredSquares() {
   }
 }
 
-function handleButtonChangeGridSizeClick() {
-  enableElement(containerChangeGridSizeSlider);
-  buttonChangeGridSize.classList.add('disabled');
-}
-
-function showChangingAlert() {
-  const confirmed = confirm('The current drawing will not be saved. Are you sure you want to proceed?');
-  return confirmed;
-}
-
 function changeGridSize(newSize){
   removeGrid();
   createGrid(parseInt(newSize));
   buttonDefaultSize.style.display = 'flex';
 } 
-
-
