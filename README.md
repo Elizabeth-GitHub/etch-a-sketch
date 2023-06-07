@@ -1,4 +1,5 @@
 # etch-a-sketch
+✨[Live DEMO](https://elizabeth-github.github.io/etch-a-sketch/)✨  
 This repository contains my implementation of the Etch-A-Sketch project from [The Odin Project](https://www.theodinproject.com/) curriculum. 
 
 ## Credits
