@@ -15,26 +15,30 @@ const labelChangeGridSize = document.createElement('label');
 const buttonDefaultSize = document.createElement('button');
 const buttonEraser = document.createElement('button');
 const containerToggles = document.createElement('div');
-const containerToggleRainbow = document.createElement('div');
-const textToggleRainbow = document.createElement('span');
+const listToggles = document.createElement('ul');///////
+const toggleRainbow = document.createElement('li');/////////
+/*const containerToggleRainbow = document.createElement('div');*/
+/*const textToggleRainbow = document.createElement('span');*/
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
-const sliderToggleRainbow = document.createElement('span');
-const containerToggleGradient = document.createElement('div');
-const textToggleGradient = document.createElement('span');
+/*const sliderToggleRainbow = document.createElement('span');*/
+const toggleGradient = document.createElement('li');///////
+/*const containerToggleGradient = document.createElement('div');*/
+/*const textToggleGradient = document.createElement('span');*/
 const labelToggleGradient = document.createElement('label');
 const inputToggleGradient = document.createElement('input');
-const sliderToggleGradient = document.createElement('span');
+/*const sliderToggleGradient = document.createElement('span');*/
 const containerChangeGradientSize = document.createElement('div');
 const containerChangeGradientValue = document.createElement('div');
 const chosenGradientSize = document.createElement('span');
 const inputChangeGradientSize= document.createElement('input');
 const labelChangeGradientSize = document.createElement('label');
-const containerToggleGrid = document.createElement('div');
-const textToggleGrid = document.createElement('span');
+/*const containerToggleGrid = document.createElement('div');*/
+const toggleGrid = document.createElement('li');/////////////////////
+/*const textToggleGrid = document.createElement('span');*/
 const labelToggleGrid = document.createElement('label');
 const inputToggleGrid = document.createElement('input');
-const sliderToggleGrid = document.createElement('span');
+/*const sliderToggleGrid = document.createElement('span');*/
 const containerGrid = document.createElement('div');
 // Footer
 const containerFooter = document.createElement('div');
@@ -98,26 +102,37 @@ buttonDefaultSize.style.display = 'none';
 buttonEraser.classList.add('button');
 buttonEraser.innerText = 'ERASER';
 buttonEraser.style.display = 'none';
-containerToggleRainbow.classList.add('containers', 'container-toggler');
-labelToggleRainbow.classList.add('containers', 'toggle-switch');
-inputToggleRainbow.type = 'checkbox';
-sliderToggleRainbow.classList.add('slider');
-textToggleRainbow.classList.add('text-toggler');
-textToggleRainbow.innerText = 'RAINBOW';
-containerToggleGrid.classList.add('containers','container-toggler');
+/*containerToggleRainbow.classList.add('containers', 'container-toggler');*/
+/*labelToggleRainbow.classList.add('containers', 'toggle-switch');*/
+labelToggleRainbow.setAttribute('for', 'input-toggleainbow');
+labelToggleRainbow.textContent = 'RAINBOW';
+inputToggleRainbow.setAttribute('type', 'checkbox');
+inputToggleRainbow.setAttribute('name', 'input-togglerainbow');
+inputToggleRainbow.setAttribute('id', 'input-togglerainbow');
+/*sliderToggleRainbow.classList.add('slider');*/
+/*textToggleRainbow.classList.add('text-toggler');*/
+/*textToggleRainbow.innerText = 'RAINBOW';*/
+/*containerToggleGrid.classList.add('containers','container-toggler');
 textToggleGrid.classList.add('text-toggler');
 textToggleGrid.style.whiteSpace = 'nowrap';
 textToggleGrid.innerText= 'SHOW GRID';
-labelToggleGrid.classList.add('containers', 'toggle-switch');
-inputToggleGrid.type = 'checkbox';
-inputToggleGrid.checked = true;
-sliderToggleGrid.classList.add('slider');
-containerToggleGradient.classList.add('containers','container-toggler');
+labelToggleGrid.classList.add('containers', 'toggle-switch');*/
+labelToggleGrid.setAttribute('for', 'input-togglegrid');////////////
+labelToggleGrid.textContent = 'SHOW GRID';///////////////
+inputToggleGrid.setAttribute('type', 'checkbox');///////////////
+inputToggleGrid.setAttribute('name', 'input-togglegrid');///////////////////
+inputToggleGrid.setAttribute('id', 'input-togglegrid');///////////////////
+/*containerToggleGradient.classList.add('containers','container-toggler');
 textToggleGradient.classList.add('text-toggler');
 textToggleGradient.innerText = 'GRADIENT';
-labelToggleGradient.classList.add('containers', 'toggle-switch');
-inputToggleGradient.type = 'checkbox';
-sliderToggleGradient.classList.add('slider');
+labelToggleGradient.classList.add('containers', 'toggle-switch');*/
+labelToggleGradient.setAttribute('for', 'input-togglegradient');//////////////
+labelToggleGradient.textContent = 'GRADIENT';/////////////////
+inputToggleGradient.setAttribute('type', 'checkbox');///////////////
+inputToggleGradient.setAttribute('name', 'input-togglegradient');////////////////////
+inputToggleGradient.setAttribute('id', 'input-togglegradient');//////////////
+/*inputToggleGradient.type = 'checkbox';
+sliderToggleGradient.classList.add('slider');*/
 containerChangeGradientSize.classList.add('containers');
 containerChangeGradientSize.style.display = 'none';
 containerChangeGradientValue.classList.add('containers');
@@ -165,26 +180,36 @@ containerChangeGridSizeSlider.appendChild(containerChoosenGridSize);
 containerChoosenGridSize.appendChild(chosenGridSize);
 containerChoosenGridSize.appendChild(inputChangeGridSize);
 containerChoosenGridSize.appendChild(labelChangeGridSize);
-containerToggles.appendChild(containerToggleRainbow);
-containerToggles.appendChild(containerToggleGrid);
-containerToggles.appendChild(containerToggleGradient);
-containerToggleRainbow.appendChild(textToggleRainbow);
-containerToggleRainbow.appendChild(labelToggleRainbow);
-labelToggleRainbow.appendChild(inputToggleRainbow);
-labelToggleRainbow.appendChild(sliderToggleRainbow);
-containerToggleGradient.appendChild(textToggleGradient);
-containerToggleGradient.appendChild(labelToggleGradient);
-labelToggleGradient.appendChild(inputToggleGradient);
-labelToggleGradient.appendChild(sliderToggleGradient);
-containerToggleGrid.appendChild(textToggleGrid);
+containerToggles.appendChild(listToggles);////////
+listToggles.appendChild(toggleRainbow);///////
+/*containerToggles.appendChild(containerToggleRainbow);*/
+listToggles.appendChild(toggleGradient);/////////////////////
+listToggles.appendChild(toggleGrid);////////////////////
+/*containerToggles.appendChild(containerToggleGrid);*/
+
+/*containerToggles.appendChild(containerToggleGradient);*/
+/*containerToggleRainbow.appendChild(textToggleRainbow);
+containerToggleRainbow.appendChild(labelToggleRainbow);*/
+toggleRainbow.appendChild(labelToggleRainbow);///////
+toggleRainbow.appendChild(inputToggleRainbow);//////
+/*labelToggleRainbow.appendChild(sliderToggleRainbow);*/
+/*containerToggleGradient.appendChild(textToggleGradient);
+containerToggleGradient.appendChild(labelToggleGradient);*/
+toggleGradient.appendChild(labelToggleGradient);
+toggleGradient.appendChild(inputToggleGradient);
+/*labelToggleGradient.appendChild(inputToggleGradient);*/
+/*labelToggleGradient.appendChild(sliderToggleGradient);*/
+/*containerToggleGrid.appendChild(textToggleGrid);*/
 containerToggles.appendChild(containerChangeGradientSize);
 containerChangeGradientSize.appendChild(containerChangeGradientValue);
 containerChangeGradientValue.appendChild(chosenGradientSize);
 containerChangeGradientSize.appendChild(inputChangeGradientSize);
 containerChangeGradientSize.appendChild(labelChangeGradientSize);
-containerToggleGrid.appendChild(labelToggleGrid);
-labelToggleGrid.appendChild(inputToggleGrid);
-labelToggleGrid.appendChild(sliderToggleGrid);
+/*containerToggleGrid.appendChild(labelToggleGrid);*/
+toggleGrid.appendChild(labelToggleGrid);///////////////////
+toggleGrid.appendChild(inputToggleGrid);/////////////////
+/*labelToggleGrid.appendChild(inputToggleGrid);
+labelToggleGrid.appendChild(sliderToggleGrid);*/
 containerMain.appendChild(containerFooter);
 containerFooter.appendChild(creator);
 containerFooter.appendChild(creditsFlaticon);
