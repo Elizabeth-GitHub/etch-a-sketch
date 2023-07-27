@@ -113,8 +113,9 @@ containerChangeGradientValue.classList.add('containers');
 inputChangeGradientSize.type = 'range';
 inputChangeGradientSize.min = '1';
 inputChangeGradientSize.max = '100';
-inputChangeGradientSize.value = '10';
+inputChangeGradientSize.value = DEFAULT_GRADIENT;
 inputChangeGradientSize.step = '1';
+outputChangeGradientSize.value = DEFAULT_GRADIENT;
 //
 containerFooter.setAttribute('id', 'container-footer');
 containerFooter.classList.add('containers');
@@ -160,6 +161,7 @@ containerToggles.appendChild(containerChangeGradientSize);
 containerChangeGradientSize.appendChild(containerChangeGradientValue);
 containerChangeGradientValue.appendChild(chosenGradientSize);
 containerChangeGradientSize.appendChild(inputChangeGradientSize);
+containerChangeGradientSize.appendChild(outputChangeGradientSize);
 /*containerChangeGradientSize.appendChild(labelChangeGradientSize);*/
 toggleGrid.appendChild(labelToggleGrid);
 toggleGrid.appendChild(inputToggleGrid);
@@ -215,11 +217,11 @@ inputToggleGradient.addEventListener('change', function() {
   } else {
     isGradientMode = this.checked;
     toggleRainbow.classList.toggle('disabled', this.checked);
-    enableElement(containerChangeGradientSize, this.checked);
+    enableElement(containerChangeGradientSize);
   }
 });
 inputChangeGradientSize.addEventListener('input', function() {
-  handleSlider(inputChangeGradientSize, chosenGradientSize);
+  outputChangeGradientSize.value = this.value;
 });
 inputChangeGridSize.addEventListener('input', function() {
   outputChangeGridSize.value = this.value;
@@ -264,7 +266,7 @@ function drawRainbowSquare(squareToRainbow) {
 }
 
 function drawGradientSquare(squareToGradient) {
-  const gradientSize = parseInt(chosenGradientSize.textContent);
+  const gradientSize = parseInt(outputChangeGradientSize.value);
   
   let currentOpacity = previousOpacity;
 
