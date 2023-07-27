@@ -79,12 +79,14 @@ containerGrid.classList.add('containers', 'cursor-pencil');
 textHeader.innerText = 'Etch-a-Sketch';
 buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
-buttonClear.style.display = 'none';
+buttonClear.style.visibility = 'hidden';
+/*buttonClear.style.display = 'none';*/
 buttonChangeGridSize.classList.add('button');
 buttonChangeGridSize.textContent = 'CHANGE GRID SIZE';
 //
 containerChangeGridSizeSlider.classList.add('containers');
-containerChangeGridSizeSlider.style.display = 'none';
+containerChangeGridSizeSlider.style.visibility = 'hidden';
+/*containerChangeGridSizeSlider.style.display = 'none';*/
 containerChoosenGridSize.classList.add('containers');
 chosenGridSize.textContent = 16;
 inputChangeGridSize.classList.add('slider-range');
@@ -98,10 +100,12 @@ labelChangeGridSize.textContent = 'Grid Size';
 //
 buttonDefaultSize.classList.add('button');
 buttonDefaultSize.textContent = 'DEFAULT SIZE';
-buttonDefaultSize.style.display = 'none';
+buttonDefaultSize.style.visibility = 'hidden';
+/*buttonDefaultSize.style.display = 'none';*/
 buttonEraser.classList.add('button');
 buttonEraser.innerText = 'ERASER';
-buttonEraser.style.display = 'none';
+buttonEraser.style.visibility = 'hidden';
+/*buttonEraser.style.display = 'none';*/
 /*containerToggleRainbow.classList.add('containers', 'container-toggler');*/
 /*labelToggleRainbow.classList.add('containers', 'toggle-switch');*/
 labelToggleRainbow.setAttribute('for', 'input-toggleainbow');
@@ -122,6 +126,7 @@ labelToggleGrid.textContent = 'SHOW GRID';///////////////
 inputToggleGrid.setAttribute('type', 'checkbox');///////////////
 inputToggleGrid.setAttribute('name', 'input-togglegrid');///////////////////
 inputToggleGrid.setAttribute('id', 'input-togglegrid');///////////////////
+inputToggleGrid.setAttribute('checked', 'true');
 /*containerToggleGradient.classList.add('containers','container-toggler');
 textToggleGradient.classList.add('text-toggler');
 textToggleGradient.innerText = 'GRADIENT';
@@ -134,7 +139,8 @@ inputToggleGradient.setAttribute('id', 'input-togglegradient');//////////////
 /*inputToggleGradient.type = 'checkbox';
 sliderToggleGradient.classList.add('slider');*/
 containerChangeGradientSize.classList.add('containers');
-containerChangeGradientSize.style.display = 'none';
+containerChangeGradientSize.style.visibility = 'hidden';
+/*containerChangeGradientSize.style.display = 'none';*/
 containerChangeGradientValue.classList.add('containers');
 chosenGradientSize.textContent = 10;
 inputChangeGradientSize.classList.add('slider-range');
@@ -239,7 +245,7 @@ inputToggleRainbow.addEventListener('change', function() {
   } else {
   isChecked = this.checked;
   isRainbowMode = isChecked;
-  containerToggleGradient.classList.toggle('disabled', isChecked);
+  toggleGradient.classList.toggle('disabled', isChecked);
   }
 });
 inputToggleGrid.addEventListener('change', function() {
@@ -262,7 +268,7 @@ inputToggleGradient.addEventListener('change', function() {
     this.checked = false;
   } else {
     isGradientMode = this.checked;
-    containerToggleRainbow.classList.toggle('disabled', this.checked);
+    toggleRainbow.classList.toggle('disabled', this.checked);
     enableElement(containerChangeGradientSize, this.checked);
   }
 });
@@ -335,7 +341,8 @@ function drawPlumSquare(squareToPLum) {
 
 function enableElement(...elementsToEnable) {
   elementsToEnable.forEach(elementToEnable => {
-  elementToEnable.style.display = 'flex';
+    elementToEnable.style.visibility = 'visible';
+  /*elementToEnable.style.display = 'flex';*/
 });
 }
 
@@ -419,7 +426,8 @@ function toggleEraserMode() {
 
 function disableElement(...elementsToDisable) {
   elementsToDisable.forEach(elementToDisable => {
-    elementToDisable.style.display = 'none';
+    elementToDisable.style.visibility = 'hidden';
+    /*elementToDisable.style.display = 'none';*/
   });
 }
 
