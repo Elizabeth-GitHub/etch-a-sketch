@@ -50,7 +50,6 @@ input[type="checkbox"]::before {
   background-color: plum;
   content: '';
   position: absolute;
-  /*top: 0%;*/
   left: 1%;
   transition: all 0.4s;
 }
@@ -65,42 +64,6 @@ input[type="checkbox"]:checked::before {
   transition: all 0.4s;
 }
 
-/*input {
-  visibility: hidden;
-}*/
-
-/*input[type='checkbox']:checked + .slider {
-  background-color: #E6E6FA;
-}
-
-input[type='checkbox']:checked + .slider:before {
-  transform: translateX(1rem);
-}
-
-input[type="range"] {
-  /* To hide ordinary range input */
- /* -webkit-appearance: none;
-
-  height: 1rem;
-  background: #E6E6FA;
-  border-radius: 15px;
-  width: 90%;
-  background-image: linear-gradient(plum,#E6E6FA);
-  background-size: 10% 100%;
-  background-repeat: no-repeat;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  
-  height: 1.25rem;
-  width: 1.25rem;
-  border-radius: 50%;
-  background: plum; 
-  cursor: pointer;
-  transition: background .3s ease-in-out;
-}*/
-
 a {
   text-decoration: none;
 }
@@ -109,10 +72,6 @@ a, a:visited {
   color: inherit;
 }
 
-/*label {
-  margin-bottom: 5%;
-}*/
-
 .containers {
     display: flex;
     flex-direction: column;
@@ -120,15 +79,15 @@ a, a:visited {
 }
 
 .button {
-    justify-content: center;
-    align-items: center;
-    width: 10rem;
-    height: 2rem;
-    margin-bottom: 5%;
-    border: 1px solid #EE82EE;
-    border-radius: 25%;
-    cursor: pointer;
-    background-color: white;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  height: 2rem;
+  margin-bottom: 5%;
+  border: 1px solid #EE82EE;
+  border-radius: 25%;
+  cursor: pointer;
+  background-color: white;
 }
 
 .button.active {
@@ -148,50 +107,13 @@ a, a:visited {
 }
 
 .square.hovered {
-    background-color: plum;
+  background-color: plum;
 }
 
 .container-toggler {
     align-items: center;
     justify-content: flex-end;
     flex-direction: row;
-}
-  
-.toggle-switch {
-  align-items: flex-end;
-  margin-left: 3%;
-}
-
-.slider {
-  position: relative;
-  width: 4rem;
-  height: 2rem;
-  background-color: white;
-  border: 1px solid plum;
-  border-radius: 1rem;
-  cursor: pointer;
-}
-  
-.slider:before {
-  content: '';
-  position: absolute;
-  height: 2rem;
-  width: 2rem;
-  top: -0.15rem;
-  left: 35%;
-  transform: translateX(-60%);
-  background-color: plum;
-  border-radius: 50%;
-  transition: 0.4s;
-}
-
-.toggle-switch {
-  width: 100%;
-}
-
-.slider-range{
-  width:100%;
-  visibility: visible;
 }
 
 .text-footer {

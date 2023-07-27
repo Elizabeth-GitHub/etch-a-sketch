@@ -7,38 +7,28 @@ const containerOptions = document.createElement('div');
 const containerButtons = document.createElement('div');
 const buttonClear = document.createElement('button');
 const buttonChangeGridSize = document.createElement('button');
-const containerChangeGridSizeSlider =  document.createElement('div');
-const containerChoosenGridSize = document.createElement('div');
-const chosenGridSize = document.createElement('span');
+const containerChangeGridSize =  document.createElement('div');
 const inputChangeGridSize = document.createElement('input');
-const labelChangeGridSize = document.createElement('label');
+const outputChangeGridSize = document.createElement('output');
 const buttonDefaultSize = document.createElement('button');
 const buttonEraser = document.createElement('button');
 const containerToggles = document.createElement('div');
-const listToggles = document.createElement('ul');///////
-const toggleRainbow = document.createElement('li');/////////
-/*const containerToggleRainbow = document.createElement('div');*/
-/*const textToggleRainbow = document.createElement('span');*/
+const listToggles = document.createElement('ul');
+const toggleRainbow = document.createElement('li');
 const labelToggleRainbow = document.createElement('label');
 const inputToggleRainbow = document.createElement('input');
-/*const sliderToggleRainbow = document.createElement('span');*/
-const toggleGradient = document.createElement('li');///////
-/*const containerToggleGradient = document.createElement('div');*/
-/*const textToggleGradient = document.createElement('span');*/
+const toggleGradient = document.createElement('li');
 const labelToggleGradient = document.createElement('label');
 const inputToggleGradient = document.createElement('input');
-/*const sliderToggleGradient = document.createElement('span');*/
 const containerChangeGradientSize = document.createElement('div');
 const containerChangeGradientValue = document.createElement('div');
 const chosenGradientSize = document.createElement('span');
 const inputChangeGradientSize= document.createElement('input');
-const labelChangeGradientSize = document.createElement('label');
-/*const containerToggleGrid = document.createElement('div');*/
-const toggleGrid = document.createElement('li');/////////////////////
-/*const textToggleGrid = document.createElement('span');*/
+const outputChangeGradientSize = document.createElement('output');
+/*const labelChangeGradientSize = document.createElement('label');*/
+const toggleGrid = document.createElement('li');
 const labelToggleGrid = document.createElement('label');
 const inputToggleGrid = document.createElement('input');
-/*const sliderToggleGrid = document.createElement('span');*/
 const containerGrid = document.createElement('div');
 // Footer
 const containerFooter = document.createElement('div');
@@ -48,6 +38,7 @@ const creditsFlaticon = document.createElement('p');
 const creditsPencilCursor = document.createElement('p');
 // 
 const DEFAULT_SIZE = 16;
+const DEFAULT_GRADIENT = 10;
 const RAINBOW_OPACITY = 0.2;
 const MAX_RGB_VALUE = 256;
 const MAX_GRADIENT_OPACITY = 1;
@@ -80,77 +71,50 @@ textHeader.innerText = 'Etch-a-Sketch';
 buttonClear.classList.add('button');
 buttonClear.textContent = 'CLEAR';
 buttonClear.style.visibility = 'hidden';
-/*buttonClear.style.display = 'none';*/
 buttonChangeGridSize.classList.add('button');
 buttonChangeGridSize.textContent = 'CHANGE GRID SIZE';
 //
-containerChangeGridSizeSlider.classList.add('containers');
-containerChangeGridSizeSlider.style.visibility = 'hidden';
-/*containerChangeGridSizeSlider.style.display = 'none';*/
-containerChoosenGridSize.classList.add('containers');
-chosenGridSize.textContent = 16;
-inputChangeGridSize.classList.add('slider-range');
+containerChangeGridSize.classList.add('containers');
+containerChangeGridSize.style.visibility = 'hidden';
 inputChangeGridSize.type = 'range';
+inputChangeGridSize.id = 'input-changegridsize';
+inputChangeGridSize.name = 'input-changegridsize';
 inputChangeGridSize.min = '1';
 inputChangeGridSize.max = '100';
-inputChangeGridSize.value = '10';
 inputChangeGridSize.step = '1';
-labelChangeGridSize.classList.add('text-toggler');
-labelChangeGridSize.textContent = 'Grid Size';
+outputChangeGridSize.setAttribute('for', 'input-changegradientsize');
+setDefaultInputOutputGridSize()
 //
 buttonDefaultSize.classList.add('button');
 buttonDefaultSize.textContent = 'DEFAULT SIZE';
 buttonDefaultSize.style.visibility = 'hidden';
-/*buttonDefaultSize.style.display = 'none';*/
 buttonEraser.classList.add('button');
 buttonEraser.innerText = 'ERASER';
 buttonEraser.style.visibility = 'hidden';
-/*buttonEraser.style.display = 'none';*/
-/*containerToggleRainbow.classList.add('containers', 'container-toggler');*/
-/*labelToggleRainbow.classList.add('containers', 'toggle-switch');*/
 labelToggleRainbow.setAttribute('for', 'input-toggleainbow');
 labelToggleRainbow.textContent = 'RAINBOW';
-inputToggleRainbow.setAttribute('type', 'checkbox');
-inputToggleRainbow.setAttribute('name', 'input-togglerainbow');
-inputToggleRainbow.setAttribute('id', 'input-togglerainbow');
-/*sliderToggleRainbow.classList.add('slider');*/
-/*textToggleRainbow.classList.add('text-toggler');*/
-/*textToggleRainbow.innerText = 'RAINBOW';*/
-/*containerToggleGrid.classList.add('containers','container-toggler');
-textToggleGrid.classList.add('text-toggler');
-textToggleGrid.style.whiteSpace = 'nowrap';
-textToggleGrid.innerText= 'SHOW GRID';
-labelToggleGrid.classList.add('containers', 'toggle-switch');*/
-labelToggleGrid.setAttribute('for', 'input-togglegrid');////////////
-labelToggleGrid.textContent = 'SHOW GRID';///////////////
-inputToggleGrid.setAttribute('type', 'checkbox');///////////////
-inputToggleGrid.setAttribute('name', 'input-togglegrid');///////////////////
-inputToggleGrid.setAttribute('id', 'input-togglegrid');///////////////////
-inputToggleGrid.setAttribute('checked', 'true');
-/*containerToggleGradient.classList.add('containers','container-toggler');
-textToggleGradient.classList.add('text-toggler');
-textToggleGradient.innerText = 'GRADIENT';
-labelToggleGradient.classList.add('containers', 'toggle-switch');*/
-labelToggleGradient.setAttribute('for', 'input-togglegradient');//////////////
-labelToggleGradient.textContent = 'GRADIENT';/////////////////
-inputToggleGradient.setAttribute('type', 'checkbox');///////////////
-inputToggleGradient.setAttribute('name', 'input-togglegradient');////////////////////
-inputToggleGradient.setAttribute('id', 'input-togglegradient');//////////////
-/*inputToggleGradient.type = 'checkbox';
-sliderToggleGradient.classList.add('slider');*/
+inputToggleRainbow.type = 'checkbox';
+inputToggleRainbow.name = 'input-togglerainbow';
+inputToggleRainbow.id = 'input-togglerainbow';
+labelToggleGrid.setAttribute('for', 'input-togglegrid');
+labelToggleGrid.textContent = 'SHOW GRID';
+inputToggleGrid.type = 'checkbox';
+inputToggleGrid.name = 'input-togglegrid';
+inputToggleGrid.id = 'input-togglegrid';
+inputToggleGrid.checked = true;
+labelToggleGradient.setAttribute('for', 'input-togglegradient');
+labelToggleGradient.textContent = 'GRADIENT';
+inputToggleGradient.type = 'checkbox';
+inputToggleGradient.name = 'input-togglegradient';
+inputToggleGradient.id = 'input-togglegradient';
 containerChangeGradientSize.classList.add('containers');
 containerChangeGradientSize.style.visibility = 'hidden';
-/*containerChangeGradientSize.style.display = 'none';*/
 containerChangeGradientValue.classList.add('containers');
-chosenGradientSize.textContent = 10;
-inputChangeGradientSize.classList.add('slider-range');
 inputChangeGradientSize.type = 'range';
 inputChangeGradientSize.min = '1';
 inputChangeGradientSize.max = '100';
 inputChangeGradientSize.value = '10';
 inputChangeGradientSize.step = '1';
-labelChangeGradientSize.classList.add('text-toggler');
-labelChangeGradientSize.textContent = 'Gradient Size';
 //
 containerFooter.setAttribute('id', 'container-footer');
 containerFooter.classList.add('containers');
@@ -181,42 +145,24 @@ containerButtons.appendChild(buttonEraser);
 containerButtons.appendChild(buttonClear);
 containerButtons.appendChild(buttonDefaultSize);
 containerButtons.appendChild(buttonChangeGridSize);
-containerButtons.appendChild(containerChangeGridSizeSlider);
-containerChangeGridSizeSlider.appendChild(containerChoosenGridSize);
-containerChoosenGridSize.appendChild(chosenGridSize);
-containerChoosenGridSize.appendChild(inputChangeGridSize);
-containerChoosenGridSize.appendChild(labelChangeGridSize);
-containerToggles.appendChild(listToggles);////////
-listToggles.appendChild(toggleRainbow);///////
-/*containerToggles.appendChild(containerToggleRainbow);*/
-listToggles.appendChild(toggleGradient);/////////////////////
-listToggles.appendChild(toggleGrid);////////////////////
-/*containerToggles.appendChild(containerToggleGrid);*/
-
-/*containerToggles.appendChild(containerToggleGradient);*/
-/*containerToggleRainbow.appendChild(textToggleRainbow);
-containerToggleRainbow.appendChild(labelToggleRainbow);*/
-toggleRainbow.appendChild(labelToggleRainbow);///////
-toggleRainbow.appendChild(inputToggleRainbow);//////
-/*labelToggleRainbow.appendChild(sliderToggleRainbow);*/
-/*containerToggleGradient.appendChild(textToggleGradient);
-containerToggleGradient.appendChild(labelToggleGradient);*/
+containerButtons.appendChild(containerChangeGridSize);
+containerChangeGridSize.appendChild(inputChangeGridSize);
+containerChangeGridSize.appendChild(outputChangeGridSize);
+containerToggles.appendChild(listToggles);
+listToggles.appendChild(toggleGrid);
+listToggles.appendChild(toggleRainbow);
+listToggles.appendChild(toggleGradient);
+toggleRainbow.appendChild(labelToggleRainbow);
+toggleRainbow.appendChild(inputToggleRainbow);
 toggleGradient.appendChild(labelToggleGradient);
 toggleGradient.appendChild(inputToggleGradient);
-/*labelToggleGradient.appendChild(inputToggleGradient);*/
-/*labelToggleGradient.appendChild(sliderToggleGradient);*/
-/*containerToggleGrid.appendChild(textToggleGrid);*/
 containerToggles.appendChild(containerChangeGradientSize);
 containerChangeGradientSize.appendChild(containerChangeGradientValue);
 containerChangeGradientValue.appendChild(chosenGradientSize);
 containerChangeGradientSize.appendChild(inputChangeGradientSize);
-containerChangeGradientSize.appendChild(labelChangeGradientSize);
-/*containerToggleGrid.appendChild(labelToggleGrid);*/
-toggleGrid.appendChild(labelToggleGrid);///////////////////
-toggleGrid.appendChild(inputToggleGrid);/////////////////
-/*labelToggleGrid.appendChild(inputToggleGrid);
-labelToggleGrid.appendChild(sliderToggleGrid);*/
-containerMain.appendChild(containerFooter);
+/*containerChangeGradientSize.appendChild(labelChangeGradientSize);*/
+toggleGrid.appendChild(labelToggleGrid);
+toggleGrid.appendChild(inputToggleGrid);
 containerFooter.appendChild(creator);
 containerFooter.appendChild(creditsFlaticon);
 containerFooter.appendChild(creditsPencilCursor);
@@ -234,7 +180,7 @@ buttonDefaultSize.addEventListener('click', function() {
   removeGrid();
   createGrid(DEFAULT_SIZE);
   inputChangeGridSize.value = DEFAULT_SIZE; 
-  handleSlider(inputChangeGridSize, chosenGridSize);
+  setDefaultInputOutputGridSize();
 });
 buttonEraser.addEventListener('click', toggleEraserMode);
 
@@ -276,9 +222,9 @@ inputChangeGradientSize.addEventListener('input', function() {
   handleSlider(inputChangeGradientSize, chosenGradientSize);
 });
 inputChangeGridSize.addEventListener('input', function() {
-  const newGridSize = inputChangeGridSize.value;
+  outputChangeGridSize.value = this.value;
 
-  handleSlider(inputChangeGridSize, chosenGridSize);
+  const newGridSize = inputChangeGridSize.value;
 
   if (checkHoveredSquares()) {
     if (showChangingAlert()) { // A user agreed to reset the current drawing
@@ -292,6 +238,11 @@ inputChangeGridSize.addEventListener('input', function() {
 })
 
 //
+function setDefaultInputOutputGridSize() {
+  inputChangeGridSize.value = DEFAULT_SIZE;
+  outputChangeGridSize.value = DEFAULT_SIZE;
+}
+
 function enableGridBorders(squareAddBorder) {
   squareAddBorder.style.border = '1px solid rgba(221, 160, 221, 1)';
 }
@@ -342,7 +293,6 @@ function drawPlumSquare(squareToPLum) {
 function enableElement(...elementsToEnable) {
   elementsToEnable.forEach(elementToEnable => {
     elementToEnable.style.visibility = 'visible';
-  /*elementToEnable.style.display = 'flex';*/
 });
 }
 
@@ -427,7 +377,6 @@ function toggleEraserMode() {
 function disableElement(...elementsToDisable) {
   elementsToDisable.forEach(elementToDisable => {
     elementToDisable.style.visibility = 'hidden';
-    /*elementToDisable.style.display = 'none';*/
   });
 }
 
@@ -450,25 +399,12 @@ function clearGrid() {
 }
 
 function handleButtonChangeGridSizeClick() {
-  enableElement(containerChangeGridSizeSlider);
+  enableElement(containerChangeGridSize);
   buttonChangeGridSize.classList.add('disabled');
 }
 
 function removeGrid() {
   containerGrid.innerHTML = '';
-}
-
-function handleSlider(inputChange, valueToDisplay, defaultValue = null) {
-  let valueSlider = defaultValue;
-
-  if (defaultValue === null) {
-    valueSlider = inputChange.value;
-  }
-
-  const proportionBackground  = `${parseInt(valueSlider)}% 100%`
-
-  inputChange.style.backgroundSize = proportionBackground;
-  valueToDisplay.textContent = valueSlider;
 }
 
 function disableGridBorder(squareRemoveBorder) {
@@ -488,5 +424,5 @@ function checkHoveredSquares() {
 function changeGridSize(newSize){
   removeGrid();
   createGrid(parseInt(newSize));
-  buttonDefaultSize.style.display = 'flex';
+  buttonDefaultSize.style.visibility = 'visible';
 } 
