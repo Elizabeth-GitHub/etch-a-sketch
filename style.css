@@ -24,26 +24,30 @@ li {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 5%;
 }
 
 label {
   margin-right: auto;
 }
 
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  position: relative;
-  width: 40%;
-  height: 70%;
+input {
   border-radius: 12px;
-  border: 1px solid #EE82EE;
-  background: #eee;
-  transition: all 0.4s;
   cursor: pointer;
 }
 
-input[type="checkbox"]::before {
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 30%;
+  height: 100%;
+  border: 1px solid #EE82EE;
+  background: #eee;
+  transition: all 0.4s;
+}
+
+input[type='checkbox']::before {
   width: 40%;
   height: 100%;
   border-radius: 100%;
@@ -54,14 +58,54 @@ input[type="checkbox"]::before {
   transition: all 0.4s;
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   background-color: #E6E6FA;
   transition: all 0.4s;
 }
 
-input[type="checkbox"]:checked::before {
+input[type='checkbox']:checked::before {
   left: 59%;
   transition: all 0.4s;
+}
+
+input[type=range] {
+  -webkit-appearance: none; 
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 15px;
+  background: #eee;
+}
+
+input[type="range"]::-moz-range-track {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 15px;
+  background: #eee;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 15px;
+  width: 15px;
+  background-color: plum;
+  border-radius: 50%;
+  border: 2px solid plum;
+  box-shadow: -407px 0 0 400px #E6E6FA;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: plum;
+  border-radius: 50%;
+  border: 1px solid plum;
+  box-shadow: -407px 0 0 400px #E6E6FA;
 }
 
 a {
@@ -75,13 +119,13 @@ a, a:visited {
 .containers {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .button {
   justify-content: center;
   align-items: center;
-  width: 10rem;
+  width: 100%;
   height: 2rem;
   margin-bottom: 5%;
   border: 1px solid #EE82EE;
@@ -141,7 +185,9 @@ a, a:visited {
   width: 7vw;
   height: 25vh;
   font-size: medium;
+  margin-bottom: 20%;
   margin-right: 5%;
+  border: 1px solid black;
 }
 
 #container-buttons {
