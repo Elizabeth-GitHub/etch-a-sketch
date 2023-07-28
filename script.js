@@ -75,6 +75,7 @@ buttonChangeGridSize.textContent = 'CHANGE GRID SIZE';
 //
 containerChangeGridSize.classList.add('containers');
 containerChangeGridSize.style.visibility = 'hidden';
+containerChangeGridSize.id = 'container-changegradientsize';
 inputChangeGridSize.type = 'range';
 inputChangeGridSize.id = 'input-changegridsize';
 inputChangeGridSize.name = 'input-changegridsize';
@@ -108,6 +109,7 @@ inputToggleGradient.name = 'input-togglegradient';
 inputToggleGradient.id = 'input-togglegradient';
 containerChangeGradientSize.classList.add('containers');
 containerChangeGradientSize.style.visibility = 'hidden';
+containerChangeGradientSize.id = 'container-changegradientsize';
 inputChangeGradientSize.type = 'range';
 inputChangeGradientSize.min = '1';
 inputChangeGradientSize.max = '100';

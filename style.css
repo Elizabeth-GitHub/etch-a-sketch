@@ -29,6 +29,8 @@ li {
 
 label {
   margin-right: auto;
+  display: flex;
+  justify-content: center;
 }
 
 input {
@@ -197,6 +199,10 @@ a, a:visited {
 #container-toggles {
   height: 50%;
   justify-content: center;
+}
+
+#container-changegradientsize, #container-changegradientsize {
+  align-items: center;
 }
 
 #container-grid {
