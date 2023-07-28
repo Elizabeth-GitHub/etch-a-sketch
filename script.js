@@ -21,11 +21,9 @@ const toggleGradient = document.createElement('li');
 const labelToggleGradient = document.createElement('label');
 const inputToggleGradient = document.createElement('input');
 const containerChangeGradientSize = document.createElement('div');
-const containerChangeGradientValue = document.createElement('div');
 const chosenGradientSize = document.createElement('span');
 const inputChangeGradientSize= document.createElement('input');
 const outputChangeGradientSize = document.createElement('output');
-/*const labelChangeGradientSize = document.createElement('label');*/
 const toggleGrid = document.createElement('li');
 const labelToggleGrid = document.createElement('label');
 const inputToggleGrid = document.createElement('input');
@@ -51,6 +49,7 @@ let isGradientMode = false;
 let isGridShown = true;
 let previousOpacity = 0; // Initial gradient opacity
 let squareToGradientIndex = 0;
+let isSizeChanged = false // true if a user has changed the grid size. The variable is used for hiding the grid size range checkbox after starting drawing.
 
 containerMain.setAttribute('id', 'container-main');
 containerMain.classList.add('containers');
@@ -109,7 +108,6 @@ inputToggleGradient.name = 'input-togglegradient';
 inputToggleGradient.id = 'input-togglegradient';
 containerChangeGradientSize.classList.add('containers');
 containerChangeGradientSize.style.visibility = 'hidden';
-containerChangeGradientValue.classList.add('containers');
 inputChangeGradientSize.type = 'range';
 inputChangeGradientSize.min = '1';
 inputChangeGradientSize.max = '100';
@@ -158,18 +156,14 @@ toggleRainbow.appendChild(inputToggleRainbow);
 toggleGradient.appendChild(labelToggleGradient);
 toggleGradient.appendChild(inputToggleGradient);
 containerToggles.appendChild(containerChangeGradientSize);
-containerChangeGradientSize.appendChild(containerChangeGradientValue);
-containerChangeGradientValue.appendChild(chosenGradientSize);
 containerChangeGradientSize.appendChild(inputChangeGradientSize);
 containerChangeGradientSize.appendChild(outputChangeGradientSize);
-/*containerChangeGradientSize.appendChild(labelChangeGradientSize);*/
 toggleGrid.appendChild(labelToggleGrid);
 toggleGrid.appendChild(inputToggleGrid);
 containerFooter.appendChild(creator);
 containerFooter.appendChild(creditsFlaticon);
 containerFooter.appendChild(creditsPencilCursor);
 creator.appendChild(creatorLink);
-
 containerGrid.addEventListener('mousedown', handleMouseDown);
 containerGrid.addEventListener('mouseup', handleMouseUp);
 buttonClear.addEventListener('click', clearGrid);
@@ -217,7 +211,7 @@ inputToggleGradient.addEventListener('change', function() {
   } else {
     isGradientMode = this.checked;
     toggleRainbow.classList.toggle('disabled', this.checked);
-    enableElement(containerChangeGradientSize);
+    isGradientMode ? enableElement(containerChangeGradientSize) : disableElement(containerChangeGradientSize);
   }
 });
 inputChangeGradientSize.addEventListener('input', function() {
@@ -236,6 +230,10 @@ inputChangeGridSize.addEventListener('input', function() {
     }
   } else { 
     changeGridSize(newGridSize); 
+  }
+
+  if (!isSizeChanged) {
+    isSizeChanged = true;
   }
 })
 
@@ -310,6 +308,9 @@ function handleMouseEnter(event) {
       drawPlumSquare(square);
     }
     enableElement(buttonClear, buttonEraser);
+    disableElement(containerChangeGridSize);
+    isSizeChanged = false;
+    buttonChangeGridSize.classList.remove('disabled');
   }
 }
 
