@@ -1,6 +1,6 @@
 # etch-a-sketch
 ✨[Live DEMO](https://elizabeth-github.github.io/etch-a-sketch/)✨  
-<img src="https://github.com/Elizabeth-GitHub/etch-a-sketch/blob/main/images/sketchScreenshot.png" alt="calculator screenshot" width="400" height="500"> 
+<img src="https://github.com/Elizabeth-GitHub/etch-a-sketch/blob/main/images/sketchScreenshot.png" alt="SKETCH screenshot" width="400" height="500">   
 This repository contains my implementation of the Etch-A-Sketch project from [The Odin Project](https://www.theodinproject.com/) curriculum. 
 
 ## Credits
